@@ -11,7 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed;
 
     public float gravity = -9.81f;
-
+    private float yVelocity;
+    public float jumpHeight = 0.5f;
     private float _currentlookingPos;
 
     public bool isPlayer1;
@@ -33,78 +34,57 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         PlayerWalk();
-        PlayerWalkHorizontal();
+ 
         
         //CamAnim();
     }
 
     public void PlayerWalk()
     {
+        float horizontal;
+        float vertical;
+        bool jump;
+
+        // Inputs dependiendo del jugador
         if (isPlayer1)
         {
-            Vector3 inputVector = new Vector3(0, 0, _oldInput.verticalP1);
-
-            inputVector = transform.TransformDirection(inputVector);
-
-            Vector3 movementVector = (inputVector * speed) + (Vector3.up * gravity);
-
-            _characterController.Move(movementVector * Time.deltaTime);
+            horizontal = _oldInput.horizontalP1;
+            vertical = _oldInput.verticalP1;
+            jump = _oldInput.jumpP1;
         }
         else
         {
-            Vector3 inputVector = new Vector3(0, 0, _oldInput.verticalP2);
-
-            inputVector = transform.TransformDirection(inputVector);
-
-            Vector3 movementVector = (inputVector * speed) + (Vector3.up * gravity);
-
-            _characterController.Move(movementVector * Time.deltaTime);
+            horizontal = _oldInput.horizontalP2;
+            vertical = _oldInput.verticalP2;
+            jump = _oldInput.jumpP2;
         }
 
-    }
+        // Movimiento horizontal y vertical
+        Vector3 inputVector = new Vector3(horizontal, 0, vertical);
 
-    public void PlayerWalkHorizontal()
-    {
-        if (isPlayer1)
+        // Convierte el movimiento según la dirección del jugador
+        inputVector = transform.TransformDirection(inputVector);
+
+        // Revisar si está tocando el suelo
+        if (_characterController.isGrounded)
         {
-            Vector3 inputVector = new Vector3(_oldInput.horizontalP1, 0, 0);
+            // Mantiene al jugador pegado al piso
+            yVelocity = -2f;
 
-            inputVector = transform.TransformDirection(inputVector);
-
-            Vector3 movementVector = (inputVector * speed) + (Vector3.up * gravity);
-
-            _characterController.Move(movementVector * Time.deltaTime);
+            // Si presiona salto
+            if (jump)
+            {
+                yVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
         }
-        else
-        {
-            Vector3 inputVector = new Vector3(_oldInput.horizontalP2, 0, 0);
 
-            inputVector = transform.TransformDirection(inputVector);
+        // Aplicar gravedad
+        yVelocity += gravity * Time.deltaTime;
 
-            Vector3 movementVector = (inputVector * speed) + (Vector3.up * gravity);
+        // Agregar movimiento vertical
+        inputVector.y = yVelocity;
 
-            _characterController.Move(movementVector * Time.deltaTime);
-
-        }
-    }
-
-    public void PlayerRotation()
-    {
-        if (isPlayer1)
-        {
-            float rotationInput = _oldInput.horizontalP1 * rotationSpeed * Time.deltaTime;
-
-            _currentlookingPos += rotationInput;
-
-            transform.localRotation = Quaternion.AngleAxis(_currentlookingPos, transform.up);
-        }
-        else
-        {
-            float rotationInput = _oldInput.horizontalP2 * rotationSpeed * Time.deltaTime;
-
-            _currentlookingPos += rotationInput;
-
-            transform.localRotation = Quaternion.AngleAxis(_currentlookingPos, transform.up);
-        }
+        // Mover jugador
+        _characterController.Move(inputVector * speed * Time.deltaTime);
     }
 }

@@ -11,6 +11,9 @@ public class OldInput : MonoBehaviour
     public float horizontalP2;
     public float verticalP2;
 
+    //Variable para saltar
+    public bool jumpP1;
+    public bool jumpP2;
 
     // Se llama cada frame
     void Update()
@@ -19,6 +22,7 @@ public class OldInput : MonoBehaviour
 
         GetInputFloat();
         GetInputButton();
+
     }
 
     // Método para visibilizar el vector 2
@@ -32,18 +36,17 @@ public class OldInput : MonoBehaviour
         horizontalP2 = Input.GetAxisRaw("Horizontal_P2");
         verticalP2 = Input.GetAxisRaw("Vertical_P2");
 
+        
+
 
     }
 
     // Método para visibilizar la presión de botón
     public void GetInputButton()
     {
-        // Si el sistema detecta que se presiona la letra "M"
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            // Se escribe en consola el textor "Shoot"
-            Debug.Log("Shoot");
-        }
+        jumpP1 = Input.GetKeyDown(KeyCode.Space);
+
+        jumpP2 = Input.GetKeyDown(KeyCode.Return);
     }
 
 }
