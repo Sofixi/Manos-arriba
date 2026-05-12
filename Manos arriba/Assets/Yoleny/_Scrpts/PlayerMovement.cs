@@ -13,9 +13,12 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
     private float yVelocity;
     public float jumpHeight = 0.5f;
-    private float _currentlookingPos;
+    private float _currentLookingPos;
 
     public bool isPlayer1;
+
+    float horizontal;
+    float vertical;
 
     //public Animator animator;
 
@@ -34,15 +37,13 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         PlayerWalk();
- 
-        
+        PlayerRotation();
+
         //CamAnim();
     }
 
     public void PlayerWalk()
     {
-        float horizontal;
-        float vertical;
         bool jump;
 
         // Inputs dependiendo del jugador
@@ -60,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Movimiento horizontal y vertical
-        Vector3 inputVector = new Vector3(horizontal, 0, vertical);
+        Vector3 inputVector = new Vector3(0, 0, vertical);
 
         // Convierte el movimiento según la dirección del jugador
         inputVector = transform.TransformDirection(inputVector);
@@ -86,5 +87,14 @@ public class PlayerMovement : MonoBehaviour
 
         // Mover jugador
         _characterController.Move(inputVector * speed * Time.deltaTime);
+    }
+
+    public void PlayerRotation() // Método para rotar al jugador
+    {
+        float rotationInput = horizontal * rotationSpeed * Time.deltaTime; // Calculo la rotación con input horizontal
+
+        _currentLookingPos += rotationInput; // Acumulo la rotación
+
+        transform.localRotation = Quaternion.AngleAxis(_currentLookingPos, transform.up); // Aplico la rotación al jugador
     }
 }
