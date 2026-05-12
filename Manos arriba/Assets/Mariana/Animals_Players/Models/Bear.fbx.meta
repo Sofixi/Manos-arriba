@@ -1,0 +1,244 @@
+fileFormatVersion: 2
+guid: 329d88ac14a3e714199a5aa7c7c5206a
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_Bear
+    second: {fileID: 2100000, guid: 8b23ea24aa985504c8e248b60c19372a, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MAT_Bear_Base_color
+    second: {fileID: 2800000, guid: 343c5f1b3798f324f91c14351434fae9, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: Bear(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: MSH_Bear
+      parentName: Bear(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bear
+      parentName: Bear(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.50000006, y: -0.5, z: -0.4999999, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearLLegPlatform
+      parentName: Bear(Clone)
+      position: {x: -0.0604915, y: -5.499792e-15, z: 0.008182006}
+      rotation: {x: 0.50000006, y: -0.5, z: -0.4999999, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearRLegPlatform
+      parentName: Bear(Clone)
+      position: {x: 0.0604915, y: -8.711062e-15, z: 0.008182025}
+      rotation: {x: 0.50000006, y: -0.5, z: -0.4999999, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearHips
+      parentName: Bear(Clone)
+      position: {x: 2.2169763e-14, y: 0.20010194, z: -0.000000080824485}
+      rotation: {x: 0.50000006, y: -0.50000006, z: -0.4999999, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearRLeg1
+      parentName: BearHips
+      position: {x: -0, y: 0, z: -0.043348163}
+      rotation: {x: -0.058124326, y: 0.99742085, z: 0.0003582239, w: -0.042109907}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.99999994}
+    - name: BearRLeg2
+      parentName: BearRLeg1
+      position: {x: -0.08200203, y: -0.00000015497207, z: -0.000000009536743}
+      rotation: {x: 0.009380319, y: 0.0077156266, z: 0.15567382, w: 0.98773384}
+      scale: {x: 1.0000017, y: 0.999998, z: 0.9999999}
+    - name: BearRLegAnkle
+      parentName: BearRLeg2
+      position: {x: -0.10830154, y: -0.0000000011920929, z: 0}
+      rotation: {x: 0.012524247, y: -0.049417615, z: -0.60727423, w: 0.792855}
+      scale: {x: 1.000002, y: 0.99999785, z: 1}
+    - name: BearSpine1
+      parentName: BearHips
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearSpine2
+      parentName: BearSpine1
+      position: {x: -0.04811647, y: 0, z: 1.1836821e-15}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearChest
+      parentName: BearSpine2
+      position: {x: -0.048116453, y: -4.5474734e-15, z: 1.1836821e-15}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearRArmCollarbone
+      parentName: BearChest
+      position: {x: -0, y: 0, z: -0.021674082}
+      rotation: {x: -0.000000055879354, y: 0.7951347, z: -0.000000059604645, w: -0.6064329}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
+    - name: BearRArm1
+      parentName: BearRArmCollarbone
+      position: {x: -0.04038424, y: 0, z: 0}
+      rotation: {x: -0.111758284, y: 0.09829797, z: -0.0060165664, w: 0.9888435}
+      scale: {x: 0.99999964, y: 0.9999999, z: 0.99999976}
+    - name: BearRArm2
+      parentName: BearRArm1
+      position: {x: -0.066923924, y: -0.00000012397766, z: -0.00000017166137}
+      rotation: {x: 0.20751512, y: 0.0166793, z: -0.019953338, w: 0.9778861}
+      scale: {x: 1.0000002, y: 1.0000021, z: 0.9999992}
+    - name: BearRArmPalm
+      parentName: BearRArm2
+      position: {x: -0.059746064, y: -0.00000014781952, z: -0.000000114440915}
+      rotation: {x: -0.0023299342, y: -0.05947461, z: 0.009734593, w: 0.9981797}
+      scale: {x: 0.99999976, y: 1.0000008, z: 0.999998}
+    - name: BearNeck
+      parentName: BearChest
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearHead
+      parentName: BearNeck
+      position: {x: -0.05982048, y: -4.5474734e-15, z: 1.471605e-15}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearLArmCollarbone
+      parentName: BearChest
+      position: {x: -0, y: 0, z: 0.021674082}
+      rotation: {x: -0.000000059604645, y: 0.79513466, z: 0.000000040978193, w: 0.606433}
+      scale: {x: 0.99999976, y: 1, z: 0.9999999}
+    - name: BearLArm1
+      parentName: BearLArmCollarbone
+      position: {x: -0.04038424, y: 0, z: 0}
+      rotation: {x: 0.11176149, y: -0.09829779, z: -0.0060184095, w: 0.9888432}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BearLArm2
+      parentName: BearLArm1
+      position: {x: -0.06692391, y: 0.00000011920929, z: -0.00000017166137}
+      rotation: {x: -0.20751287, y: -0.016684268, z: -0.019957287, w: 0.97788644}
+      scale: {x: 1, y: 0.9999978, z: 1.0000011}
+    - name: BearLArmPalm
+      parentName: BearLArm2
+      position: {x: -0.05974607, y: 0.00000015258789, z: -0.000000114440915}
+      rotation: {x: 0.0023300943, y: 0.05947523, z: 0.009733281, w: 0.9981796}
+      scale: {x: 1.0000001, y: 0.9999978, z: 1.0000017}
+    - name: BearLLeg1
+      parentName: BearHips
+      position: {x: -0, y: 0, z: 0.043348163}
+      rotation: {x: -0.058131337, y: 0.99742043, z: -0.00035446882, w: 0.04210931}
+      scale: {x: 0.9999999, y: 1, z: 1}
+    - name: BearLLeg2
+      parentName: BearLLeg1
+      position: {x: -0.082002036, y: -0.000000007152557, z: -0.000000052452087}
+      rotation: {x: -0.009336229, y: -0.00818922, z: 0.15566976, w: 0.98773116}
+      scale: {x: 0.9999978, y: 1.0000018, z: 0.9999999}
+    - name: BearLLegAnkle
+      parentName: BearLLeg2
+      position: {x: -0.10830152, y: 0.0000000011920929, z: 0.0000000047683715}
+      rotation: {x: -0.012291678, y: 0.050453108, z: -0.60720533, w: 0.79284626}
+      scale: {x: 0.99999815, y: 1.000002, z: 0.99999994}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
