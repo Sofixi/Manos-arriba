@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Lista de tipos de ingredientes posibles
-public enum IngredientType
+
+   public enum IngredientType
 {
     Mantequilla,
     Leche,
-    Huevo
+    Agua,
+    Huevo,
+    Cocoa,
+    Sal,
+    Esencia_de_vainilla,
+    Polvo_para_hornear,
+    Crema_Pastelera,
+    Harina,
+    Azucar
 }
+
 
 public class Ingredient : MonoBehaviour
 {
