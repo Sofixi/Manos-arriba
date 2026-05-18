@@ -11,32 +11,42 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed;
 
     public float gravity = -9.81f;
-    private float yVelocity;
+
+    // Ahora pública para debug y boosts
+    public float yVelocity;
+
     public float jumpHeight = 0.5f;
+
     private float _currentlookingPos;
 
     public bool isPlayer1;
-
-    //public Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         _oldInput = GetComponent<OldInput>();
+
         if (_oldInput == null)
         {
             _oldInput = gameObject.AddComponent<OldInput>();
         }
-        _characterController = GetComponent<CharacterController>();
+
+        _characterController =
+        GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         PlayerWalk();
- 
-        
-        //CamAnim();
+    }
+
+    // Método para trampolines / boosts
+    public void JumpBoost(float force)
+    {
+        yVelocity = force;
+
+        Debug.Log("Boost vertical: " + force);
     }
 
     public void PlayerWalk()
@@ -59,32 +69,40 @@ public class PlayerMovement : MonoBehaviour
             jump = _oldInput.jumpP2;
         }
 
-        // Movimiento horizontal y vertical
-        Vector3 inputVector = new Vector3(horizontal, 0, vertical);
+        // Movimiento base
+        Vector3 move =
+        new Vector3(horizontal, 0, vertical);
 
-        // Convierte el movimiento según la dirección del jugador
-        inputVector = transform.TransformDirection(inputVector);
+        // Convertir dirección
+        move = transform.TransformDirection(move);
 
-        // Revisar si está tocando el suelo
-        if (_characterController.isGrounded)
+        // Aplicar velocidad horizontal
+        move *= speed;
+
+        // Revisar suelo
+        if (_characterController.isGrounded
+            && yVelocity < 0)
         {
-            // Mantiene al jugador pegado al piso
+            // Mantener pegado al suelo
             yVelocity = -2f;
 
-            // Si presiona salto
+            // Salto normal
             if (jump)
             {
-                yVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                yVelocity =
+                Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
         }
 
         // Aplicar gravedad
         yVelocity += gravity * Time.deltaTime;
 
-        // Agregar movimiento vertical
-        inputVector.y = yVelocity;
+        // Movimiento vertical
+        move.y = yVelocity;
 
-        // Mover jugador
-        _characterController.Move(inputVector * speed * Time.deltaTime);
+        // Movimiento final
+        _characterController.Move(
+            move * Time.deltaTime
+        );
     }
 }
