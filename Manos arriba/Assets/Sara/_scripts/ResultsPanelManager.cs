@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class ResultsPanelManager : MonoBehaviour
 {
@@ -33,27 +34,35 @@ public class ResultsPanelManager : MonoBehaviour
         // Activar panel
         resultsPanel.SetActive(true);
 
-        // Mostrar similitud P1
-        p1SimilarityText.text =
-        "Similitud: "
-        + scoreManager.player1Similarity.ToString("F0")
-        + "%";
+        // Animaciones Player 1
+        StartCoroutine(
+            AnimatePercentage(
+                p1SimilarityText,
+                scoreManager.player1Similarity
+            )
+        );
 
-        // Mostrar score P1
-        p1ScoreText.text =
-        "Puntaje: "
-        + scoreManager.player1Score;
+        StartCoroutine(
+            AnimateScore(
+                p1ScoreText,
+                scoreManager.player1Score
+            )
+        );
 
-        // Mostrar similitud P2
-        p2SimilarityText.text =
-        "Similitud: "
-        + scoreManager.player2Similarity.ToString("F0")
-        + "%";
+        // Animaciones Player 2
+        StartCoroutine(
+            AnimatePercentage(
+                p2SimilarityText,
+                scoreManager.player2Similarity
+            )
+        );
 
-        // Mostrar score P2
-        p2ScoreText.text =
-        "Puntaje: "
-        + scoreManager.player2Score;
+        StartCoroutine(
+            AnimateScore(
+                p2ScoreText,
+                scoreManager.player2Score
+            )
+        );
     }
 
     // Botón siguiente ronda
@@ -61,4 +70,54 @@ public class ResultsPanelManager : MonoBehaviour
     {
         SceneManager.LoadScene(nextSceneName);
     }
+
+    IEnumerator AnimatePercentage(
+    TMPro.TextMeshProUGUI text,
+    float targetValue)
+    {
+        float current = 0;
+
+        while (current < targetValue)
+        {
+            current += Time.deltaTime * 25f;
+
+            if (current > targetValue)
+            {
+                current = targetValue;
+            }
+
+            text.text =
+            "Similitud: "
+            + current.ToString("F0")
+            + "%";
+
+            yield return null;
+        }
+    }
+
+    IEnumerator AnimateScore(
+        TMPro.TextMeshProUGUI text,
+        int targetValue)
+    {
+        int current = 0;
+
+        while (current < targetValue)
+        {
+            current += Mathf.CeilToInt(
+                Time.deltaTime * 200f
+            );
+
+            if (current > targetValue)
+            {
+                current = targetValue;
+            }
+
+            text.text =
+            "Puntaje: "
+            + current;
+
+            yield return null;
+        }
+    }
+
 }
