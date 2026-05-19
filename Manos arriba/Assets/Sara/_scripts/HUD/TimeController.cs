@@ -24,10 +24,13 @@ public class TimeController : MonoBehaviour
     // Revisar si el tiempo sigue corriendo
     private bool corriendo = true;
 
-    //[Header("Managers")]
+    [Header("Managers")]
 
-    // Referencia al ScoreManager
-    //public ScoreManager scoreManager;
+    //Referencia al ScoreManager
+    public ScoreManager scoreManager;
+
+    //Ref al panel manager
+    public ResultsPanelManager resultsPanelManager;
 
     void Start()
     {
@@ -100,8 +103,11 @@ public class TimeController : MonoBehaviour
     {
         Debug.Log("Se acabó el tiempo");
 
-        // Calcular resultados finales
-        //scoreManager.CalculateRoundResults();
+        // Calcula resultados finales
+        scoreManager.CalculateRoundResults();
+
+        // Mostrar panel resultados
+        resultsPanelManager.ShowResults();
 
         // Detener movimiento de jugadores
         StopPlayers();
