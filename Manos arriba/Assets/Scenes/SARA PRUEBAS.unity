@@ -1622,7 +1622,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e2155c3e4090fe44bbc75a596fdba5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allIngredients: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a000000
   player1Recipe: 
   player2Recipe: 
   currentRound: 1
