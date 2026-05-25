@@ -4,96 +4,179 @@ using UnityEngine;
 
 public class PlayerGrab : MonoBehaviour
 {
-    // Lista donde se guardan los ingredientes ya recolectados
+    // Inventario
     public List<IngredientType> inventory =
     new List<IngredientType>();
 
-    // Objeto que el jugador tiene actualmente en la mano
+    // Objeto en mano
     public GameObject heldObject;
 
-    // Punto donde aparecerá el ingrediente en la mano
+    // Punto donde se sostiene
     public Transform holdPoint;
 
-    // Distancia máxima para recoger ingredientes
+    // Distancia de agarre
     public float grabDistance = 2f;
 
-    // Tecla para recoger
+    // Teclas
     public KeyCode grabKey = KeyCode.E;
+    public KeyCode dropKey = KeyCode.Q;
 
-    // Update se ejecuta cada frame
     void Update()
     {
-        // Si el jugador presiona la tecla de recoger
+        // Agarrar / robar
         if (Input.GetKeyDown(grabKey))
         {
-            // Intenta recoger ingrediente
             TryPickIngredient();
         }
+
+        // Soltar
+        if (Input.GetKeyDown(dropKey))
+        {
+            DropIngredient();
+        }
     }
-    
-    // Método que intenta recoger un ingrediente
+
     void TryPickIngredient()
     {
-        // Busca todos los colliders cerca del jugador
         Collider[] hits =
-        Physics.OverlapSphere(transform.position, grabDistance);
+        Physics.OverlapSphere(transform.position,
+        grabDistance);
 
-        // Recorre todos los objetos encontrados
         foreach (Collider hit in hits)
         {
-            // Revisa si el objeto tiene el tag "Ingredient"
             if (hit.CompareTag("Ingredient"))
             {
-                if (hit.gameObject == heldObject)
+                GameObject newIngredient =
+                hit.gameObject;
+
+                // Evita agarrar el mismo
+                if (newIngredient == heldObject)
                 {
                     continue;
                 }
-                // Guarda el objeto encontrado
-                GameObject newIngredient = hit.gameObject;
 
-                // Llama al método para recogerlo
                 PickIngredient(newIngredient);
 
-                // Sale del foreach para no recoger varios a la vez
                 break;
             }
         }
     }
 
-    // Método que recoge el ingrediente
     void PickIngredient(GameObject newIngredient)
     {
-        // Si ya tenía un ingrediente en la mano
-        if (heldObject != null)
+        // Si otro jugador lo tiene, se lo roba
+        PlayerGrab[] players =
+        FindObjectsOfType<PlayerGrab>();
+
+        foreach (PlayerGrab player in players)
         {
-            // Obtiene el script Ingredient del objeto actual
-            Ingredient currentIngredient =
-            heldObject.GetComponent<Ingredient>();
-
-            // Guarda el tipo de ingrediente en el inventario
-            inventory.Add(currentIngredient.ingredientType);
-
-            // Destruye el objeto visual anterior
-            Destroy(heldObject);
+            if (player != this &&
+                player.heldObject == newIngredient)
+            {
+                player.ForceDrop();
+            }
         }
 
-        // El nuevo ingrediente pasa a la mano
+        // Si yo ya tengo algo, lo suelto
+        if (heldObject != null)
+        {
+            DropIngredient();
+        }
+
+        // Tomar ingrediente
         heldObject = newIngredient;
 
-        // Obtiene el rigidbody del ingrediente
         Rigidbody rb =
         heldObject.GetComponent<Rigidbody>();
 
-        // Desactiva físicas para evitar bugs
-        rb.isKinematic = true;
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
 
-        // Hace hijo el ingrediente del holdPoint
+        // Pegar al holdPoint
         heldObject.transform.SetParent(holdPoint);
 
-        // Coloca el ingrediente exactamente en la mano
-        heldObject.transform.localPosition = Vector3.zero;
+        heldObject.transform.localPosition =
+        Vector3.zero;
 
-        // Resetea la rotación local
-        heldObject.transform.localRotation = Quaternion.identity;
+        heldObject.transform.localRotation =
+        Quaternion.identity;
+        heldObject.transform.localScale = Vector3.one;
+
+        Debug.Log(gameObject.name +
+        " agarró ingrediente");
+    }
+
+    void DropIngredient()
+    {
+        if (heldObject == null)
+            return;
+
+        GameObject ingredientToDrop =
+        heldObject;
+
+        heldObject = null;
+
+        // Quitar padre
+        ingredientToDrop.transform.SetParent(null);
+
+        // Posición enfrente del jugador
+        ingredientToDrop.transform.position =
+            holdPoint.position +
+            transform.forward;
+
+        Rigidbody rb =
+        ingredientToDrop.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        Debug.Log(gameObject.name +
+        " soltó ingrediente");
+    }
+
+    // Soltar silenciosamente cuando te roban
+    void ForceDrop()
+    {
+        if (heldObject == null)
+            return;
+
+        GameObject ingredientToDrop =
+        heldObject;
+
+        heldObject = null;
+
+        ingredientToDrop.transform.SetParent(null);
+
+        Rigidbody rb =
+        ingredientToDrop.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+    }
+
+    // Dibuja distancia en escena
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawWireSphere(
+        transform.position,
+        grabDistance);
     }
 }

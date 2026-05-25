@@ -1815,7 +1815,6 @@ GameObject:
   - component: {fileID: 614658702}
   - component: {fileID: 614658703}
   - component: {fileID: 614658704}
-  - component: {fileID: 614658705}
   m_Layer: 0
   m_Name: Player one
   m_TagString: Player
@@ -1988,10 +1987,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: 
-  heldObject: {fileID: 0}
+  heldObject: {fileID: 389381573}
   holdPoint: {fileID: 389381574}
   grabDistance: 2
   grabKey: 101
+  dropKey: 113
 --- !u!114 &614658704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2007,20 +2007,6 @@ MonoBehaviour:
   checkPoint: {fileID: 0}
   startPos: {fileID: 1098375512}
   deathHeight: -20
---- !u!114 &614658705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 614658693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15a98d06fa2e50418a5f17475847d79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  holdPoint: {fileID: 389381574}
-  heldIngredient: {fileID: 0}
 --- !u!1 &644458390
 GameObject:
   m_ObjectHideFlags: 0
@@ -3244,7 +3230,7 @@ Transform:
   m_GameObject: {fileID: 1402421418}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.52, y: 1.086048, z: -7.66}
+  m_LocalPosition: {x: 7.52, y: 1.086048, z: -2.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3603,7 +3589,7 @@ Transform:
   m_GameObject: {fileID: 1616986170}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.34907317, y: 1.086048, z: -10.08657}
+  m_LocalPosition: {x: -0.34907317, y: 1.086048, z: -6.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4308,7 +4294,6 @@ GameObject:
   - component: {fileID: 1865122030}
   - component: {fileID: 1865122031}
   - component: {fileID: 1865122032}
-  - component: {fileID: 1865122033}
   m_Layer: 0
   m_Name: Player two
   m_TagString: Player
@@ -4481,24 +4466,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: 
-  heldObject: {fileID: 0}
+  heldObject: {fileID: 1154812968}
   holdPoint: {fileID: 1154812969}
   grabDistance: 2
   grabKey: 303
---- !u!114 &1865122033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865122022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15a98d06fa2e50418a5f17475847d79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  holdPoint: {fileID: 1154812969}
-  heldIngredient: {fileID: 0}
+  dropKey: 113
 --- !u!1 &1913602182
 GameObject:
   m_ObjectHideFlags: 0
@@ -4967,7 +4939,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -5060,11 +5032,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
