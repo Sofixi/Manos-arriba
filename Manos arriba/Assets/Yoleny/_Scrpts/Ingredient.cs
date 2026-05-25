@@ -24,4 +24,5 @@ public class Ingredient : MonoBehaviour
 {
     // Tipo de ingrediente de este objeto
     public IngredientType ingredientType;
+    
 }

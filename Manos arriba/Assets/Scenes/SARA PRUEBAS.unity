@@ -1815,6 +1815,7 @@ GameObject:
   - component: {fileID: 614658702}
   - component: {fileID: 614658703}
   - component: {fileID: 614658704}
+  - component: {fileID: 614658705}
   m_Layer: 0
   m_Name: Player one
   m_TagString: Player
@@ -2006,6 +2007,20 @@ MonoBehaviour:
   checkPoint: {fileID: 0}
   startPos: {fileID: 1098375512}
   deathHeight: -20
+--- !u!114 &614658705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614658693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15a98d06fa2e50418a5f17475847d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdPoint: {fileID: 389381574}
+  heldIngredient: {fileID: 0}
 --- !u!1 &644458390
 GameObject:
   m_ObjectHideFlags: 0
@@ -4293,6 +4308,7 @@ GameObject:
   - component: {fileID: 1865122030}
   - component: {fileID: 1865122031}
   - component: {fileID: 1865122032}
+  - component: {fileID: 1865122033}
   m_Layer: 0
   m_Name: Player two
   m_TagString: Player
@@ -4469,6 +4485,20 @@ MonoBehaviour:
   holdPoint: {fileID: 1154812969}
   grabDistance: 2
   grabKey: 303
+--- !u!114 &1865122033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865122022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15a98d06fa2e50418a5f17475847d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdPoint: {fileID: 1154812969}
+  heldIngredient: {fileID: 0}
 --- !u!1 &1913602182
 GameObject:
   m_ObjectHideFlags: 0
