@@ -59,6 +59,12 @@ public class TimeController : MonoBehaviour
         warningTriggered = true;
 
         uiManager.ShowWarningPanel();
+
+        AudioManager.Instance.PlaySFX(
+        AudioManager.Instance.warningSFX
+        );
+
+        AudioManager.Instance.PlayWarningMusic();
     }
 
         // Evitar negativos
@@ -117,6 +123,12 @@ public class TimeController : MonoBehaviour
 
         // Calcula resultados finales
         scoreManager.CalculateRoundResults();
+
+        AudioManager.Instance.PlaySFX(
+            AudioManager.Instance.roundEndSFX
+        );
+
+        AudioManager.Instance.PlayVictoryMusic();
 
         // Mostrar panel resultados
         resultsPanelManager.ShowResults();

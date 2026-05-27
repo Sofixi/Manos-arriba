@@ -40,6 +40,8 @@ public class UIManager : MonoBehaviour
         {
             mainMenuPanel.SetActive(true);
 
+            AudioManager.Instance.PlayMenuMusic();
+
             Time.timeScale = 0f;
         }
     }
@@ -91,6 +93,8 @@ public class UIManager : MonoBehaviour
         HideAllPanels();
 
         hudPanel.SetActive(true);
+
+        AudioManager.Instance.PlayGameplayMusic();
 
         ShowTutorialPanel();
 
@@ -188,5 +192,12 @@ public class UIManager : MonoBehaviour
         Application.Quit();
 
         Debug.Log("Salir del juego");
+    }
+
+    public void PlayButtonSound()
+    {
+        AudioManager.Instance.PlaySFX(
+            AudioManager.Instance.buttonClick
+        );
     }
 }

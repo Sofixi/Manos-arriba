@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float gravity = -9.81f;
 
-    // Ahora pública para debug y boosts
+    // Ahora pï¿½blica para debug y boosts
     public float yVelocity;
 
     public float jumpHeight = 0.5f;
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         PlayerWalk();
     }
 
-    // Método para trampolines / boosts
+    // Mï¿½todo para trampolines / boosts
     public void JumpBoost(float force)
     {
         yVelocity = force;
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move =
         new Vector3(horizontal, 0, vertical);
 
-        // Convertir dirección
+        // Convertir direcciï¿½n
         move = transform.TransformDirection(move);
 
         // Aplicar velocidad horizontal
@@ -91,6 +91,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 yVelocity =
                 Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+                AudioManager.Instance.PlaySFX(
+                AudioManager.Instance.jumpSFX
+                );
             }
         }
 

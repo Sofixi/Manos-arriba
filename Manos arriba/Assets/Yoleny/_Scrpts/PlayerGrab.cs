@@ -11,10 +11,10 @@ public class PlayerGrab : MonoBehaviour
     // Objeto que el jugador tiene actualmente en la mano
     public GameObject heldObject;
 
-    // Punto donde aparecerá el ingrediente en la mano
+    // Punto donde aparecerï¿½ el ingrediente en la mano
     public Transform holdPoint;
 
-    // Distancia máxima para recoger ingredientes
+    // Distancia mï¿½xima para recoger ingredientes
     public float grabDistance = 2f;
 
     // Tecla para recoger
@@ -31,7 +31,7 @@ public class PlayerGrab : MonoBehaviour
         }
     }
     
-    // Método que intenta recoger un ingrediente
+    // Mï¿½todo que intenta recoger un ingrediente
     void TryPickIngredient()
     {
         // Busca todos los colliders cerca del jugador
@@ -51,7 +51,7 @@ public class PlayerGrab : MonoBehaviour
                 // Guarda el objeto encontrado
                 GameObject newIngredient = hit.gameObject;
 
-                // Llama al método para recogerlo
+                // Llama al mï¿½todo para recogerlo
                 PickIngredient(newIngredient);
 
                 // Sale del foreach para no recoger varios a la vez
@@ -60,10 +60,10 @@ public class PlayerGrab : MonoBehaviour
         }
     }
 
-    // Método que recoge el ingrediente
+    // Mï¿½todo que recoge el ingrediente
     void PickIngredient(GameObject newIngredient)
     {
-        // Si ya tenía un ingrediente en la mano
+        // Si ya tenï¿½a un ingrediente en la mano
         if (heldObject != null)
         {
             // Obtiene el script Ingredient del objeto actual
@@ -80,11 +80,15 @@ public class PlayerGrab : MonoBehaviour
         // El nuevo ingrediente pasa a la mano
         heldObject = newIngredient;
 
+        AudioManager.Instance.PlaySFX(
+        AudioManager.Instance.pickupSFX
+        );
+
         // Obtiene el rigidbody del ingrediente
         Rigidbody rb =
         heldObject.GetComponent<Rigidbody>();
 
-        // Desactiva físicas para evitar bugs
+        // Desactiva fï¿½sicas para evitar bugs
         rb.isKinematic = true;
 
         // Hace hijo el ingrediente del holdPoint
@@ -93,7 +97,7 @@ public class PlayerGrab : MonoBehaviour
         // Coloca el ingrediente exactamente en la mano
         heldObject.transform.localPosition = Vector3.zero;
 
-        // Resetea la rotación local
+        // Resetea la rotaciï¿½n local
         heldObject.transform.localRotation = Quaternion.identity;
     }
 }
