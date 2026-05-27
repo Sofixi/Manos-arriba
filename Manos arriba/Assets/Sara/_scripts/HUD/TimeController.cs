@@ -15,6 +15,7 @@ public class TimeController : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI textoTiempo;
+    public UIManager uiManager;
 
     // Barra visual del tiempo
     public Image barraTiempo;
@@ -32,6 +33,8 @@ public class TimeController : MonoBehaviour
     //Ref al panel manager
     public ResultsPanelManager resultsPanelManager;
 
+    private bool warningTriggered = false;
+
     void Start()
     {
         // Reinicia tiempo al iniciar
@@ -40,7 +43,7 @@ public class TimeController : MonoBehaviour
 
     void Update()
     {
-        // Si el tiempo está detenido
+        // Si el tiempo estï¿½ detenido
         if (!corriendo)
         {
             return;
@@ -48,6 +51,15 @@ public class TimeController : MonoBehaviour
 
         // Restar tiempo
         tiempoActual -= Time.deltaTime;
+
+        // Warning cuando queden 30 segundos
+    if (tiempoActual <= 30f
+        && !warningTriggered)
+    {
+        warningTriggered = true;
+
+        uiManager.ShowWarningPanel();
+    }
 
         // Evitar negativos
         if (tiempoActual <= 0)
@@ -65,7 +77,7 @@ public class TimeController : MonoBehaviour
         ActualizarUI();
     }
 
-    // Método que actualiza HUD del tiempo
+    // Mï¿½todo que actualiza HUD del tiempo
     void ActualizarUI()
     {
         // Obtener minutos
@@ -89,7 +101,7 @@ public class TimeController : MonoBehaviour
         // Actualizar barra
         barraTiempo.fillAmount = t;
 
-        // Cambiar color según tiempo
+        // Cambiar color segï¿½n tiempo
         barraTiempo.color =
         Color.Lerp(
             Color.red,
@@ -98,10 +110,10 @@ public class TimeController : MonoBehaviour
         );
     }
 
-    // Método que ocurre cuando se acaba el tiempo
+    // Mï¿½todo que ocurre cuando se acaba el tiempo
     void FinDelTiempo()
     {
-        Debug.Log("Se acabó el tiempo");
+        Debug.Log("Se acabï¿½ el tiempo");
 
         // Calcula resultados finales
         scoreManager.CalculateRoundResults();
@@ -113,7 +125,7 @@ public class TimeController : MonoBehaviour
         StopPlayers();
     }
 
-    // Método para detener ronda manualmente
+    // Mï¿½todo para detener ronda manualmente
     public void StopTime()
     {
         // Detener tiempo
@@ -122,7 +134,7 @@ public class TimeController : MonoBehaviour
         Debug.Log("Ronda terminada");
     }
 
-    // Método para reiniciar tiempo
+    // Mï¿½todo para reiniciar tiempo
     public void ReiniciarTiempo()
     {
         Debug.Log("Reinicia");
@@ -132,9 +144,11 @@ public class TimeController : MonoBehaviour
 
         // Reactiva tiempo
         corriendo = true;
+
+        warningTriggered = false;
     }
 
-    // Método que detiene movimiento jugadores
+    // Mï¿½todo que detiene movimiento jugadores
     void StopPlayers()
     {
         // Busca todos los PlayerMovement
