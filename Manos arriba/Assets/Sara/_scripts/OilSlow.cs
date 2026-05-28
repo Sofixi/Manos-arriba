@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class OilSlow : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float slowMultiplier = 0.3f;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            PlayerMovement movement =
+            other.GetComponent<PlayerMovement>();
+
+            if (movement != null)
+            {
+                movement.speed *= slowMultiplier;
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            PlayerMovement movement =
+            other.GetComponent<PlayerMovement>();
+
+            if (movement != null)
+            {
+                movement.speed /=
+                slowMultiplier;
+            }
+        }
     }
 }
