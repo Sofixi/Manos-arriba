@@ -14,7 +14,7 @@ public class PlayerGrab : MonoBehaviour
     // Punto donde se sostiene
     public Transform holdPoint;
 
-    // Distancia de agarre
+    // Distancia para agarrar
     public float grabDistance = 2f;
 
     // Teclas
@@ -39,17 +39,19 @@ public class PlayerGrab : MonoBehaviour
     void TryPickIngredient()
     {
         Collider[] hits =
-        Physics.OverlapSphere(transform.position,
+        Physics.OverlapSphere(
+        transform.position,
         grabDistance);
 
         foreach (Collider hit in hits)
         {
+            // Revisar tag
             if (hit.CompareTag("Ingredient"))
             {
                 GameObject newIngredient =
                 hit.gameObject;
 
-                // Evita agarrar el mismo
+                // Evitar agarrar el mismo
                 if (newIngredient == heldObject)
                 {
                     continue;
@@ -64,10 +66,11 @@ public class PlayerGrab : MonoBehaviour
 
     void PickIngredient(GameObject newIngredient)
     {
-        // Si otro jugador lo tiene, se lo roba
+        // Buscar jugadores
         PlayerGrab[] players =
         FindObjectsOfType<PlayerGrab>();
 
+        // Robar ingrediente si otro lo tiene
         foreach (PlayerGrab player in players)
         {
             if (player != this &&
@@ -77,13 +80,25 @@ public class PlayerGrab : MonoBehaviour
             }
         }
 
-        // Si yo ya tengo algo, lo suelto
+        // Si ya tengo uno, guardarlo en inventario
         if (heldObject != null)
         {
-            DropIngredient();
+            Ingredient currentIngredient =
+            heldObject.GetComponent<Ingredient>();
+
+            if (currentIngredient != null)
+            {
+                inventory.Add(
+                currentIngredient.ingredientType);
+            }
+
+            // Destruir ingrediente viejo
+            Destroy(heldObject);
+
+            heldObject = null;
         }
 
-        // Tomar ingrediente
+        // Guardar ingrediente
         heldObject = newIngredient;
 
         Rigidbody rb =
@@ -91,20 +106,28 @@ public class PlayerGrab : MonoBehaviour
 
         if (rb != null)
         {
-            rb.isKinematic = true;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+
+            rb.useGravity = false;
+            rb.isKinematic = true;
         }
 
-        // Pegar al holdPoint
-        heldObject.transform.SetParent(holdPoint);
+        // Hacer hijo del HoldPoint
+        heldObject.transform.parent =
+        holdPoint;
 
+        // Posición exacta en mano
         heldObject.transform.localPosition =
         Vector3.zero;
 
+        // Rotación exacta
         heldObject.transform.localRotation =
         Quaternion.identity;
-        heldObject.transform.localScale = Vector3.one;
+
+        // Escala normal
+        heldObject.transform.localScale =
+        Vector3.one;
 
         Debug.Log(gameObject.name +
         " agarró ingrediente");
@@ -121,12 +144,13 @@ public class PlayerGrab : MonoBehaviour
         heldObject = null;
 
         // Quitar padre
-        ingredientToDrop.transform.SetParent(null);
+        ingredientToDrop.transform.parent =
+        null;
 
-        // Posición enfrente del jugador
+        // Tirarlo enfrente del jugador
         ingredientToDrop.transform.position =
-            holdPoint.position +
-            transform.forward;
+        holdPoint.position +
+        transform.forward;
 
         Rigidbody rb =
         ingredientToDrop.GetComponent<Rigidbody>();
@@ -144,7 +168,7 @@ public class PlayerGrab : MonoBehaviour
         " soltó ingrediente");
     }
 
-    // Soltar silenciosamente cuando te roban
+    // Soltar cuando te roban
     void ForceDrop()
     {
         if (heldObject == null)
@@ -155,7 +179,8 @@ public class PlayerGrab : MonoBehaviour
 
         heldObject = null;
 
-        ingredientToDrop.transform.SetParent(null);
+        ingredientToDrop.transform.parent =
+        null;
 
         Rigidbody rb =
         ingredientToDrop.GetComponent<Rigidbody>();
@@ -170,7 +195,7 @@ public class PlayerGrab : MonoBehaviour
         }
     }
 
-    // Dibuja distancia en escena
+    // Dibujar rango
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
