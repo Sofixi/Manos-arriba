@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class ResultsPanelManager : MonoBehaviour
@@ -11,10 +12,12 @@ public class ResultsPanelManager : MonoBehaviour
     [Header("Player 1")]
     public TextMeshProUGUI p1SimilarityText;
     public TextMeshProUGUI p1ScoreText;
+    public Image p1FillImage;
 
     [Header("Player 2")]
     public TextMeshProUGUI p2SimilarityText;
     public TextMeshProUGUI p2ScoreText;
+    public Image p2FillImage;
 
     [Header("Managers")]
     public ScoreManager scoreManager;
@@ -26,6 +29,10 @@ public class ResultsPanelManager : MonoBehaviour
     {
         // Ocultar panel al iniciar
         resultsPanel.SetActive(false);
+
+        // Reiniciar barras
+        p1FillImage.fillAmount = 0;
+        p2FillImage.fillAmount = 0;
     }
 
     // Mostrar resultados
@@ -34,7 +41,8 @@ public class ResultsPanelManager : MonoBehaviour
         // Activar panel
         resultsPanel.SetActive(true);
 
-        // Animaciones Player 1
+        // PLAYER 1
+
         StartCoroutine(
             AnimatePercentage(
                 p1SimilarityText,
@@ -49,7 +57,15 @@ public class ResultsPanelManager : MonoBehaviour
             )
         );
 
-        // Animaciones Player 2
+        StartCoroutine(
+            AnimateFill(
+                p1FillImage,
+                scoreManager.player1Similarity / 100f
+            )
+        );
+
+        // PLAYER 2
+
         StartCoroutine(
             AnimatePercentage(
                 p2SimilarityText,
@@ -63,6 +79,13 @@ public class ResultsPanelManager : MonoBehaviour
                 scoreManager.player2Score
             )
         );
+
+        StartCoroutine(
+            AnimateFill(
+                p2FillImage,
+                scoreManager.player2Similarity / 100f
+            )
+        );
     }
 
     // Botón siguiente ronda
@@ -72,7 +95,7 @@ public class ResultsPanelManager : MonoBehaviour
     }
 
     IEnumerator AnimatePercentage(
-    TMPro.TextMeshProUGUI text,
+    TextMeshProUGUI text,
     float targetValue)
     {
         float current = 0;
@@ -96,7 +119,7 @@ public class ResultsPanelManager : MonoBehaviour
     }
 
     IEnumerator AnimateScore(
-        TMPro.TextMeshProUGUI text,
+        TextMeshProUGUI text,
         int targetValue)
     {
         int current = 0;
@@ -120,4 +143,24 @@ public class ResultsPanelManager : MonoBehaviour
         }
     }
 
+    IEnumerator AnimateFill(
+        Image image,
+        float targetFill)
+    {
+        float current = 0;
+
+        while (current < targetFill)
+        {
+            current += Time.deltaTime;
+
+            if (current > targetFill)
+            {
+                current = targetFill;
+            }
+
+            image.fillAmount = current;
+
+            yield return null;
+        }
+    }
 }
