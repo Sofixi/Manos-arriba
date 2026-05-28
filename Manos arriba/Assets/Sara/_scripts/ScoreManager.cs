@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    //Script de evaluación, comparación suma de puntos. 
+    // Script de evaluaciÃ³n, comparaciÃ³n y suma de puntos
+
+    [Header("Managers")]
+
     // Referencia al RecipeManager
     public RecipeManager recipeManager;
 
@@ -14,11 +17,23 @@ public class ScoreManager : MonoBehaviour
     // Referencia jugador 2
     public PlayerGrab player2Grab;
 
-    // Puntaje total jugador 1
+    [Header("Round Scores")]
+
+    // Puntaje ronda jugador 1
     public int player1Score;
 
-    // Puntaje total jugador 2
+    // Puntaje ronda jugador 2
     public int player2Score;
+
+    [Header("Total Scores")]
+
+    // Puntaje acumulado jugador 1
+    public int player1TotalScore;
+
+    // Puntaje acumulado jugador 2
+    public int player2TotalScore;
+
+    [Header("Similarity")]
 
     // Similitud jugador 1
     [HideInInspector]
@@ -28,7 +43,7 @@ public class ScoreManager : MonoBehaviour
     [HideInInspector]
     public float player2Similarity;
 
-    // Método que calcula resultados de ronda
+    // MÃ©todo que calcula resultados de ronda
     public void CalculateRoundResults()
     {
         // Obtiene ingredientes jugador 1
@@ -41,60 +56,96 @@ public class ScoreManager : MonoBehaviour
 
         // Calcula similitud jugador 1
         player1Similarity =
-        CompareRecipe(recipeManager.player1Recipe,
-        player1Ingredients);
+        CompareRecipe(
+            recipeManager.player1Recipe,
+            player1Ingredients
+        );
 
         // Calcula similitud jugador 2
         player2Similarity =
-        CompareRecipe(recipeManager.player2Recipe,
-        player2Ingredients);
+        CompareRecipe(
+            recipeManager.player2Recipe,
+            player2Ingredients
+        );
 
-        // Convierte porcentaje en puntos
-        player1Score += Mathf.RoundToInt(player1Similarity);
+        // Puntaje de ESTA ronda
+        player1Score =
+        Mathf.RoundToInt(player1Similarity);
 
-        player2Score += Mathf.RoundToInt(player2Similarity);
+        player2Score =
+        Mathf.RoundToInt(player2Similarity);
+
+        // SUMAR al total acumulado
+        player1TotalScore += player1Score;
+
+        player2TotalScore += player2Score;
 
         // Mostrar resultados
         Debug.Log("=== RESULTADOS ===");
 
-        Debug.Log("Player 1 similitud: "
-        + player1Similarity + "%");
+        Debug.Log(
+            "Player 1 similitud: "
+            + player1Similarity + "%"
+        );
 
-        Debug.Log("Player 2 similitud: "
-        + player2Similarity + "%");
+        Debug.Log(
+            "Player 2 similitud: "
+            + player2Similarity + "%"
+        );
 
-        Debug.Log("Player 1 total: "
-        + player1Score);
+        Debug.Log(
+            "Player 1 ronda: "
+            + player1Score
+        );
 
-        Debug.Log("Player 2 total: "
-        + player2Score);
+        Debug.Log(
+            "Player 2 ronda: "
+            + player2Score
+        );
+
+        Debug.Log(
+            "Player 1 TOTAL: "
+            + player1TotalScore
+        );
+
+        Debug.Log(
+            "Player 2 TOTAL: "
+            + player2TotalScore
+        );
     }
 
-    // Método que obtiene ingredientes del jugador
+    // MÃ©todo que obtiene ingredientes del jugador
     List<IngredientType> GetPlayerIngredients
     (PlayerGrab playerGrab)
     {
         // Copia inventario
         List<IngredientType> ingredients =
-        new List<IngredientType>(playerGrab.inventory);
+        new List<IngredientType>(
+            playerGrab.inventory
+        );
 
         // Revisar si tiene ingrediente en mano
         if (playerGrab.heldObject != null)
         {
             // Obtener Ingredient
             Ingredient ingredient =
-            playerGrab.heldObject.GetComponent<Ingredient>();
+            playerGrab.heldObject
+            .GetComponent<Ingredient>();
 
             // Agregar ingrediente actual
-            ingredients.Add(ingredient.ingredientType);
+            ingredients.Add(
+                ingredient.ingredientType
+            );
         }
 
         return ingredients;
     }
 
-    // Método que compara receta con ingredientes
-    float CompareRecipe(List<IngredientType> recipe,
-    List<IngredientType> ingredients)
+    // MÃ©todo que compara receta con ingredientes
+    float CompareRecipe(
+        List<IngredientType> recipe,
+        List<IngredientType> ingredients
+    )
     {
         // Cantidad correcta
         int correctIngredients = 0;

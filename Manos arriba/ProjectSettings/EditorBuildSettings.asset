@@ -5,7 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Ronda 2.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/JOSE Nivel 1.unity
+    guid: aa59c44cd7598ae4295a0ef73e578d76
+  - enabled: 1
+    path: Assets/Scenes/JOSE Nivel 2.unity
+    guid: 6f3cf0aa558d6cb43b1202b67e8e8508
+  - enabled: 1
+    path: Assets/Scenes/JOSE Nivel 3.unity
+    guid: 615c085205798434ca721b576f9965c3
   m_configObjects: {}

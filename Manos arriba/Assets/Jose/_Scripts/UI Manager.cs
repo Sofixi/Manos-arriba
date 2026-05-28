@@ -4,11 +4,14 @@ using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
+    // Detecta si ya pasó por menú principal
     private static bool gameStarted = false;
 
     [Header("Panels")]
 
     public GameObject mainMenuPanel;
+
+    public GameObject recipePanel;
 
     public GameObject hudPanel;
 
@@ -30,14 +33,22 @@ public class UIManager : MonoBehaviour
     {
         HideAllPanels();
 
+        // SI YA INICIÓ EL JUEGO
+        // significa que esta es otra ronda
         if (gameStarted)
         {
-            hudPanel.SetActive(true);
+            // Mostrar pantalla receta
+            recipePanel.SetActive(true);
 
-            Time.timeScale = 1f;
+            // Música de espera / menú
+            AudioManager.Instance.PlayMenuMusic();
+
+            // Pausar gameplay
+            Time.timeScale = 0f;
         }
         else
         {
+            // Primera vez -> Main Menu
             mainMenuPanel.SetActive(true);
 
             AudioManager.Instance.PlayMenuMusic();
@@ -71,6 +82,8 @@ public class UIManager : MonoBehaviour
         finalWinnerPanel.SetActive(false);
 
         tutorialPanel.SetActive(false);
+
+        recipePanel.SetActive(false);
     }
 
     IEnumerator ShowTemporaryPanel(
@@ -80,27 +93,33 @@ public class UIManager : MonoBehaviour
     {
         panel.SetActive(true);
 
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSecondsRealtime(duration);
 
         panel.SetActive(false);
     }
 
-    // Iniciar juego
+    // BOTÓN PLAY DEL MENÚ
     public void StartGame()
     {
+        // Ya pasó menú principal
         gameStarted = true;
 
         HideAllPanels();
 
+        // Mostrar HUD
         hudPanel.SetActive(true);
 
+        // Música gameplay
         AudioManager.Instance.PlayGameplayMusic();
 
+        // Mostrar tutorial temporal
         ShowTutorialPanel();
 
+        // Empezar gameplay
         Time.timeScale = 1f;
     }
 
+    // Reiniciar ronda
     public void RestartRound()
     {
         Time.timeScale = 1f;
@@ -116,7 +135,7 @@ public class UIManager : MonoBehaviour
     // Pausa
     public void TogglePause()
     {
-        // No pausar si no está el HUD activo
+        // No pausar si HUD no está activo
         if (!hudPanel.activeSelf)
         {
             return;
@@ -136,7 +155,19 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Mostrar advertencia tiempo
+    // Mostrar pantalla receta manualmente
+    public void ShowRecipeScreen()
+    {
+        HideAllPanels();
+
+        recipePanel.SetActive(true);
+
+        AudioManager.Instance.PlayMenuMusic();
+
+        Time.timeScale = 0f;
+    }
+
+    // Advertencia tiempo
     public void ShowWarningPanel()
     {
         StartCoroutine(
@@ -147,6 +178,7 @@ public class UIManager : MonoBehaviour
         );
     }
 
+    // Tutorial temporal
     public void ShowTutorialPanel()
     {
         StartCoroutine(
@@ -175,6 +207,7 @@ public class UIManager : MonoBehaviour
         finalWinnerPanel.SetActive(true);
     }
 
+    // Volver al menú principal
     public void ReturnToMenu()
     {
         gameStarted = false;
@@ -182,6 +215,8 @@ public class UIManager : MonoBehaviour
         HideAllPanels();
 
         mainMenuPanel.SetActive(true);
+
+        AudioManager.Instance.PlayMenuMusic();
 
         Time.timeScale = 0f;
     }
@@ -194,6 +229,7 @@ public class UIManager : MonoBehaviour
         Debug.Log("Salir del juego");
     }
 
+    // Sonido botones
     public void PlayButtonSound()
     {
         AudioManager.Instance.PlaySFX(

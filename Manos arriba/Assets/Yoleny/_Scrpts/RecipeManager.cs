@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class RecipeManager : MonoBehaviour
 {
-    // Lista de ingredientes posibles
-    public List<IngredientType> allIngredients =
-    new List<IngredientType>();
-
     // Receta jugador 1
     public List<IngredientType> player1Recipe =
     new List<IngredientType>();
@@ -21,37 +17,76 @@ public class RecipeManager : MonoBehaviour
 
     void Start()
     {
-        GenerateRecipes();
+        LoadRecipesByRound();
     }
 
-    void GenerateRecipes()
+    void LoadRecipesByRound()
     {
         // Limpia recetas anteriores
         player1Recipe.Clear();
         player2Recipe.Clear();
 
-        // Cantidad depende de la ronda
-        int ingredientCount = currentRound + 1;
-
-        // Genera receta jugador 1
-        for (int i = 0; i < ingredientCount; i++)
+        switch (currentRound)
         {
-            IngredientType randomIngredient =
-            allIngredients[Random.Range(0, allIngredients.Count)];
+            // =========================
+            // RONDA 1
+            // =========================
+            case 1:
 
-            player1Recipe.Add(randomIngredient);
+                // PLAYER 1
+                player1Recipe.Add(IngredientType.Harina);
+                player1Recipe.Add(IngredientType.Azucar);
+                player1Recipe.Add(IngredientType.Huevo);
+
+                // PLAYER 2
+                player2Recipe.Add(IngredientType.Leche);
+                player2Recipe.Add(IngredientType.Mantequilla);
+                player2Recipe.Add(IngredientType.Sal);
+
+                break;
+
+            // =========================
+            // RONDA 2
+            // =========================
+            case 2:
+
+                // PLAYER 1
+                player1Recipe.Add(IngredientType.Cocoa);
+                player1Recipe.Add(IngredientType.Leche);
+                player1Recipe.Add(IngredientType.Polvo_para_hornear);
+                player1Recipe.Add(IngredientType.Azucar);
+
+                // PLAYER 2
+                player2Recipe.Add(IngredientType.Harina);
+                player2Recipe.Add(IngredientType.Huevo);
+                player2Recipe.Add(IngredientType.Esencia_de_vainilla);
+                player2Recipe.Add(IngredientType.Agua);
+
+                break;
+
+            // =========================
+            // RONDA 3
+            // =========================
+            case 3:
+
+                // PLAYER 1
+                player1Recipe.Add(IngredientType.Harina);
+                player1Recipe.Add(IngredientType.Crema_Pastelera);
+                player1Recipe.Add(IngredientType.Leche);
+                player1Recipe.Add(IngredientType.Esencia_de_vainilla);
+                player1Recipe.Add(IngredientType.Azucar);
+
+                // PLAYER 2
+                player2Recipe.Add(IngredientType.Cocoa);
+                player2Recipe.Add(IngredientType.Huevo);
+                player2Recipe.Add(IngredientType.Mantequilla);
+                player2Recipe.Add(IngredientType.Polvo_para_hornear);
+                player2Recipe.Add(IngredientType.Sal);
+
+                break;
         }
 
-        // Genera receta jugador 2
-        for (int i = 0; i < ingredientCount; i++)
-        {
-            IngredientType randomIngredient =
-            allIngredients[Random.Range(0, allIngredients.Count)];
-
-            player2Recipe.Add(randomIngredient);
-        }
-
-        // Mostrar recetas en consola
+        // Mostrar recetas
         Debug.Log("=== RECETA PLAYER 1 ===");
 
         foreach (IngredientType ingredient in player1Recipe)
