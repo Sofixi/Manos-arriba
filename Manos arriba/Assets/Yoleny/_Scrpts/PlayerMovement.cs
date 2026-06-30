@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float speed;
     public float rotationSpeed;
-
+    private Animator animator;
     public float gravity = -9.81f;
 
     // Ahora p�blica para debug y boosts
@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         _oldInput = GetComponent<OldInput>();
 
         if (_oldInput == null)
@@ -68,7 +69,13 @@ public class PlayerMovement : MonoBehaviour
             vertical = _oldInput.verticalP2;
             jump = _oldInput.jumpP2;
         }
+        float movementAmount =
+    Mathf.Abs(horizontal) + Mathf.Abs(vertical);
 
+        animator.SetBool(
+            "isRunning",
+            movementAmount > 0.1f
+        );
         // Movimiento base
         Vector3 move =
         new Vector3(horizontal, 0, vertical);
