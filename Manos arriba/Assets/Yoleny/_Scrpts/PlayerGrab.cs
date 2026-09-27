@@ -4,22 +4,35 @@ using UnityEngine;
 
 public class PlayerGrab : MonoBehaviour
 {
-    // Inventario
-    public List<IngredientType> inventory =
-    new List<IngredientType>();
+    // =====================================================
+    // INVENTARIO
+    // =====================================================
 
-    // Objeto en mano
+    public List<IngredientType> inventory =
+        new List<IngredientType>();
+
+    // =====================================================
+    // OBJETO EN LA MANO
+    // =====================================================
+
     public GameObject heldObject;
 
-    // Punto donde se sostiene
+    // Punto donde se sostiene el ingrediente
     public Transform holdPoint;
 
-    // Distancia para agarrar
+    // Distancia para agarrar ingredientes
     public float grabDistance = 2f;
 
-    // Teclas
+    // =====================================================
+    // TECLAS
+    // =====================================================
+
     public KeyCode grabKey = KeyCode.E;
     public KeyCode dropKey = KeyCode.Q;
+
+    // =====================================================
+    // UPDATE
+    // =====================================================
 
     void Update()
     {
@@ -36,41 +49,111 @@ public class PlayerGrab : MonoBehaviour
         }
     }
 
+    // =====================================================
+    // BUSCAR INGREDIENTE
+    // =====================================================
+
     void TryPickIngredient()
     {
         Collider[] hits =
-        Physics.OverlapSphere(
-        transform.position,
-        grabDistance);
+            Physics.OverlapSphere(
+                transform.position,
+                grabDistance
+            );
 
         foreach (Collider hit in hits)
         {
-            // Revisar tag
-            if (hit.CompareTag("Ingredient"))
+            // =============================================
+            // PROTECCIÓN:
+            // NO AGARRAR EL PROPIO JUGADOR
+            // =============================================
+
+            if (hit.transform.root == transform.root)
             {
-                GameObject newIngredient =
+                continue;
+            }
+
+            // =============================================
+            // REVISAR TAG
+            // =============================================
+
+            if (!hit.CompareTag("Ingredient"))
+            {
+                continue;
+            }
+
+            // =============================================
+            // COMPROBAR QUE REALMENTE SEA INGREDIENTE
+            // =============================================
+
+            Ingredient ingredient =
+                hit.GetComponent<Ingredient>();
+
+            if (ingredient == null)
+            {
+                continue;
+            }
+
+            GameObject newIngredient =
                 hit.gameObject;
 
-                // Evitar agarrar el mismo
-                if (newIngredient == heldObject)
-                {
-                    continue;
-                }
-
-                PickIngredient(newIngredient);
-
-                break;
+            // Evitar agarrar el mismo objeto
+            if (newIngredient == heldObject)
+            {
+                continue;
             }
+
+            // =============================================
+            // AGARRAR
+            // =============================================
+
+            PickIngredient(newIngredient);
+
+            break;
         }
     }
 
+    // =====================================================
+    // AGARRAR INGREDIENTE
+    // =====================================================
+
     void PickIngredient(GameObject newIngredient)
     {
-        // Buscar jugadores
-        PlayerGrab[] players =
-        FindObjectsOfType<PlayerGrab>();
+        // =============================================
+        // PROTECCIONES
+        // =============================================
 
-        // Robar ingrediente si otro lo tiene
+        if (newIngredient == null)
+        {
+            return;
+        }
+
+        // Nunca agarrar al propio jugador
+        if (newIngredient.transform.root == transform.root)
+        {
+            return;
+        }
+
+        // Comprobar que tenga Ingredient
+        Ingredient ingredient =
+            newIngredient.GetComponent<Ingredient>();
+
+        if (ingredient == null)
+        {
+            return;
+        }
+
+        // =============================================
+        // BUSCAR JUGADORES
+        // =============================================
+
+        PlayerGrab[] players =
+            FindObjectsOfType<PlayerGrab>();
+
+        // =============================================
+        // ROBAR INGREDIENTE
+        // =============================================
+
         foreach (PlayerGrab player in players)
         {
             if (player != this &&
@@ -80,33 +163,51 @@ public class PlayerGrab : MonoBehaviour
             }
         }
 
-        // Si ya tengo uno, guardarlo en inventario
+        // =============================================
+        // SI YA TENGO UN INGREDIENTE
+        // =============================================
+
         if (heldObject != null)
         {
             Ingredient currentIngredient =
-            heldObject.GetComponent<Ingredient>();
+                heldObject.GetComponent<Ingredient>();
 
             if (currentIngredient != null)
             {
                 inventory.Add(
-                currentIngredient.ingredientType);
+                    currentIngredient.ingredientType
+                );
             }
 
-            // Destruir ingrediente viejo
+            // Destruir ingrediente anterior
             Destroy(heldObject);
 
             heldObject = null;
         }
 
-        // Guardar ingrediente
+        // =============================================
+        // GUARDAR INGREDIENTE
+        // =============================================
+
         heldObject = newIngredient;
 
-        AudioManager.Instance.PlaySFX(
-        AudioManager.Instance.pickupSFX
-        );
+        // =============================================
+        // SONIDO
+        // =============================================
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(
+                AudioManager.Instance.pickupSFX
+            );
+        }
+
+        // =============================================
+        // RIGIDBODY
+        // =============================================
 
         Rigidbody rb =
-        heldObject.GetComponent<Rigidbody>();
+            heldObject.GetComponent<Rigidbody>();
 
         if (rb != null)
         {
@@ -117,47 +218,129 @@ public class PlayerGrab : MonoBehaviour
             rb.isKinematic = true;
         }
 
-        // Hacer hijo del HoldPoint
-        heldObject.transform.parent =
-        holdPoint;
+        // =============================================
+        // HACER HIJO DEL HOLD POINT
+        // =============================================
 
-        // Posici n exacta en mano
-        heldObject.transform.localPosition =
-        Vector3.zero;
+        if (holdPoint != null)
+        {
+            heldObject.transform.SetParent(
+                holdPoint
+            );
 
-        // Rotaci n exacta
-        heldObject.transform.localRotation =
-        Quaternion.identity;
+            // Posición exacta en la mano
+            heldObject.transform.localPosition =
+                Vector3.zero;
 
-        // Escala normal
-        heldObject.transform.localScale =
-        Vector3.one;
+            // Rotación exacta
+            heldObject.transform.localRotation =
+                Quaternion.identity;
 
-        Debug.Log(gameObject.name +
-        " agarr  ingrediente");
+            // Escala normal
+            heldObject.transform.localScale =
+                Vector3.one;
+        }
+        else
+        {
+            Debug.LogWarning(
+                gameObject.name +
+                ": No hay Hold Point asignado."
+            );
+        }
+
+        Debug.Log(
+            gameObject.name +
+            " agarró ingrediente: " +
+            newIngredient.name
+        );
     }
+
+    // =====================================================
+    // SOLTAR INGREDIENTE
+    // =====================================================
 
     void DropIngredient()
     {
         if (heldObject == null)
+        {
             return;
+        }
 
         GameObject ingredientToDrop =
-        heldObject;
+            heldObject;
+
+        heldObject = null;
+
+        // =============================================
+        // QUITAR PADRE
+        // =============================================
+
+        ingredientToDrop.transform.SetParent(null);
+
+        // =============================================
+        // POSICIÓN DEL INGREDIENTE
+        // =============================================
+
+        if (holdPoint != null)
+        {
+            ingredientToDrop.transform.position =
+                holdPoint.position +
+                transform.forward;
+        }
+        else
+        {
+            ingredientToDrop.transform.position =
+                transform.position +
+                transform.forward;
+        }
+
+        // =============================================
+        // RIGIDBODY
+        // =============================================
+
+        Rigidbody rb =
+            ingredientToDrop.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        Debug.Log(
+            gameObject.name +
+            " soltó ingrediente"
+        );
+    }
+
+    // =====================================================
+    // FORZAR SOLTAR
+    // =====================================================
+
+    public void ForceDrop()
+    {
+        if (heldObject == null)
+        {
+            return;
+        }
+
+        GameObject ingredientToDrop =
+            heldObject;
 
         heldObject = null;
 
         // Quitar padre
-        ingredientToDrop.transform.parent =
-        null;
+        ingredientToDrop.transform.SetParent(null);
 
-        // Tirarlo enfrente del jugador
-        ingredientToDrop.transform.position =
-        holdPoint.position +
-        transform.forward;
+        // =============================================
+        // RIGIDBODY
+        // =============================================
 
         Rigidbody rb =
-        ingredientToDrop.GetComponent<Rigidbody>();
+            ingredientToDrop.GetComponent<Rigidbody>();
 
         if (rb != null)
         {
@@ -168,44 +351,23 @@ public class PlayerGrab : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
 
-        Debug.Log(gameObject.name +
-        " solt  ingrediente");
+        Debug.Log(
+            gameObject.name +
+            " perdió su ingrediente porque otro jugador lo robó."
+        );
     }
 
-    // Soltar cuando te roban
-    void ForceDrop()
-    {
-        if (heldObject == null)
-            return;
+    // =====================================================
+    // GIZMO
+    // =====================================================
 
-        GameObject ingredientToDrop =
-        heldObject;
-
-        heldObject = null;
-
-        ingredientToDrop.transform.parent =
-        null;
-
-        Rigidbody rb =
-        ingredientToDrop.GetComponent<Rigidbody>();
-
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-            rb.useGravity = true;
-
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-    }
-
-    // Dibujar rango
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
 
         Gizmos.DrawWireSphere(
-        transform.position,
-        grabDistance);
+            transform.position,
+            grabDistance
+        );
     }
 }

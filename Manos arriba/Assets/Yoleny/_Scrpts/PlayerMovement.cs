@@ -1,30 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     private OldInput _oldInput;
     private CharacterController _characterController;
-
-    public float speed;
-    public float rotationSpeed;
     private Animator animator;
+
+    [Header("MOVIMIENTO")]
+    public float speed = 5f;
+    public float rotationSpeed = 10f;
+
+    [Header("GRAVEDAD")]
     public float gravity = -9.81f;
-
-    // Ahora p�blica para debug y boosts
     public float yVelocity;
-
     public float jumpHeight = 0.5f;
+
+    [Header("JUGADOR")]
+    public bool isPlayer1;
+
+    [Header("CONTROL DEL JUGADOR")]
+    public bool canMove = true;
 
     private float _currentlookingPos;
 
-    public bool isPlayer1;
+    // =====================================================
+    // START
+    // =====================================================
 
-    // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+
         _oldInput = GetComponent<OldInput>();
 
         if (_oldInput == null)
@@ -32,88 +41,161 @@ public class PlayerMovement : MonoBehaviour
             _oldInput = gameObject.AddComponent<OldInput>();
         }
 
-        _characterController =
-        GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
+    // =====================================================
+    // UPDATE
+    // =====================================================
+
     void Update()
     {
         PlayerWalk();
     }
 
-    // M�todo para trampolines / boosts
-    public void JumpBoost(float force)
-    {
-        yVelocity = force;
+    // =====================================================
+    // ACTIVAR / DESACTIVAR MOVIMIENTO
+    // =====================================================
 
-        Debug.Log("Boost vertical: " + force);
+    public void SetMovementEnabled(bool enabled)
+    {
+        canMove = enabled;
+
+        // Si bloqueamos al jugador,
+        // nos aseguramos de que no esté en Running.
+        if (!enabled && animator != null)
+        {
+            animator.SetBool("isRunning", false);
+        }
     }
+
+    // =====================================================
+    // MOVIMIENTO
+    // =====================================================
 
     public void PlayerWalk()
     {
-        float horizontal;
-        float vertical;
-        bool jump;
+        float horizontal = 0f;
+        float vertical = 0f;
+        bool jump = false;
 
-        // Inputs dependiendo del jugador
-        if (isPlayer1)
+        // =================================================
+        // SI PUEDE MOVERSE
+        // =================================================
+
+        if (canMove)
         {
-            horizontal = _oldInput.horizontalP1;
-            vertical = _oldInput.verticalP1;
-            jump = _oldInput.jumpP1;
-        }
-        else
-        {
-            horizontal = _oldInput.horizontalP2;
-            vertical = _oldInput.verticalP2;
-            jump = _oldInput.jumpP2;
-        }
-        float movementAmount =
-    Mathf.Abs(horizontal) + Mathf.Abs(vertical);
+            // -----------------------------
+            // JUGADOR 1
+            // -----------------------------
 
-        animator.SetBool(
-            "isRunning",
-            movementAmount > 0.1f
-        );
-        // Movimiento base
-        Vector3 move =
-        new Vector3(horizontal, 0, vertical);
-
-        // Convertir direcci�n
-        move = transform.TransformDirection(move);
-
-        // Aplicar velocidad horizontal
-        move *= speed;
-
-        // Revisar suelo
-        if (_characterController.isGrounded
-            && yVelocity < 0)
-        {
-            // Mantener pegado al suelo
-            yVelocity = -2f;
-
-            // Salto normal
-            if (jump)
+            if (isPlayer1)
             {
-                yVelocity =
-                Mathf.Sqrt(jumpHeight * -2f * gravity);
+                horizontal = _oldInput.horizontalP1;
+                vertical = _oldInput.verticalP1;
+                jump = _oldInput.jumpP1;
+            }
 
-                AudioManager.Instance.PlaySFX(
-                AudioManager.Instance.jumpSFX
-                );
+            // -----------------------------
+            // JUGADOR 2
+            // -----------------------------
+
+            else
+            {
+                horizontal = _oldInput.horizontalP2;
+                vertical = _oldInput.verticalP2;
+                jump = _oldInput.jumpP2;
             }
         }
 
-        // Aplicar gravedad
+        // =================================================
+        // ANIMATOR
+        // =================================================
+
+        float movementAmount =
+            Mathf.Abs(horizontal) +
+            Mathf.Abs(vertical);
+
+        if (animator != null)
+        {
+            animator.SetBool(
+                "isRunning",
+                canMove && movementAmount > 0.1f
+            );
+        }
+
+        // =================================================
+        // MOVIMIENTO HORIZONTAL
+        // =================================================
+
+        Vector3 move =
+            new Vector3(
+                horizontal,
+                0,
+                vertical
+            );
+
+        // Convertir dirección según la rotación
+        // del personaje
+        move = transform.TransformDirection(move);
+
+        // Aplicar velocidad
+        move *= speed;
+
+        // =================================================
+        // SUELO Y SALTO
+        // =================================================
+
+        if (_characterController.isGrounded &&
+            yVelocity < 0)
+        {
+            // Mantener al personaje pegado al suelo
+            yVelocity = -2f;
+
+            // Solo puede saltar si tiene el movimiento activado
+            if (canMove && jump)
+            {
+                yVelocity =
+                    Mathf.Sqrt(
+                        jumpHeight * -2f * gravity
+                    );
+
+                // Sonido de salto
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlaySFX(
+                        AudioManager.Instance.jumpSFX
+                    );
+                }
+            }
+        }
+
+        // =================================================
+        // GRAVEDAD
+        // =================================================
+
         yVelocity += gravity * Time.deltaTime;
 
         // Movimiento vertical
         move.y = yVelocity;
 
-        // Movimiento final
+        // =================================================
+        // MOVIMIENTO FINAL
+        // =================================================
+
         _characterController.Move(
             move * Time.deltaTime
         );
+    }
+
+    // =====================================================
+    // BOOST / TRAMPOLÍN
+    // =====================================================
+
+    public void JumpBoost(float force)
+    {
+        yVelocity = force;
+
+        Debug.Log("Boost vertical: " + force);
     }
 }

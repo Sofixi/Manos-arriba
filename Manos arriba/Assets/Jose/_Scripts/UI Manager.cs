@@ -29,33 +29,53 @@ public class UIManager : MonoBehaviour
 
     private bool isPaused = false;
 
+    // =====================================================
+    // START
+    // =====================================================
+
     void Start()
     {
         HideAllPanels();
 
+        // =============================================
         // SI YA INICIÓ EL JUEGO
-        // significa que esta es otra ronda
+        // =============================================
+
         if (gameStarted)
         {
             // Mostrar pantalla receta
             recipePanel.SetActive(true);
 
             // Música de espera / menú
-            AudioManager.Instance.PlayMenuMusic();
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayMenuMusic();
+            }
 
             // Pausar gameplay
             Time.timeScale = 0f;
         }
+
+        // =============================================
+        // PRIMERA VEZ
+        // =============================================
+
         else
         {
-            // Primera vez -> Main Menu
             mainMenuPanel.SetActive(true);
 
-            AudioManager.Instance.PlayMenuMusic();
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayMenuMusic();
+            }
 
             Time.timeScale = 0f;
         }
     }
+
+    // =====================================================
+    // UPDATE
+    // =====================================================
 
     void Update()
     {
@@ -66,31 +86,49 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Oculta todos los paneles
-    void HideAllPanels()
+    // =====================================================
+    // OCULTAR TODOS LOS PANELES
+    // =====================================================
+
+    public void HideAllPanels()
     {
-        mainMenuPanel.SetActive(false);
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(false);
 
-        hudPanel.SetActive(false);
+        if (hudPanel != null)
+            hudPanel.SetActive(false);
 
-        pausePanel.SetActive(false);
+        if (pausePanel != null)
+            pausePanel.SetActive(false);
 
-        warningPanel.SetActive(false);
+        if (warningPanel != null)
+            warningPanel.SetActive(false);
 
-        resultsPanel.SetActive(false);
+        if (resultsPanel != null)
+            resultsPanel.SetActive(false);
 
-        finalWinnerPanel.SetActive(false);
+        if (finalWinnerPanel != null)
+            finalWinnerPanel.SetActive(false);
 
-        tutorialPanel.SetActive(false);
+        if (tutorialPanel != null)
+            tutorialPanel.SetActive(false);
 
-        recipePanel.SetActive(false);
+        if (recipePanel != null)
+            recipePanel.SetActive(false);
     }
+
+    // =====================================================
+    // MOSTRAR PANEL TEMPORAL
+    // =====================================================
 
     IEnumerator ShowTemporaryPanel(
         GameObject panel,
         float duration
     )
     {
+        if (panel == null)
+            yield break;
+
         panel.SetActive(true);
 
         yield return new WaitForSecondsRealtime(duration);
@@ -98,52 +136,94 @@ public class UIManager : MonoBehaviour
         panel.SetActive(false);
     }
 
-    // BOTÓN PLAY DEL MENÚ
+    // =====================================================
+    // BOTÓN PLAY
+    // =====================================================
+
     public void StartGame()
     {
-        // Ya pasó menú principal
         gameStarted = true;
 
+        // Ocultar todo
         HideAllPanels();
 
-        // Mostrar HUD
-        hudPanel.SetActive(true);
+        // IMPORTANTE:
+        // NO mostramos el HUD todavía.
+        // La cinemática y el contador van primero.
 
-        // Música gameplay
-        AudioManager.Instance.PlayGameplayMusic();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayGameplayMusic();
+        }
 
-        // Mostrar tutorial temporal
-        ShowTutorialPanel();
-
-        // Empezar gameplay
+        // El juego puede comenzar a correr,
+        // pero el HUD permanecerá oculto.
         Time.timeScale = 1f;
     }
 
-    // Reiniciar ronda
+    // =====================================================
+    // MOSTRAR HUD
+    // =====================================================
+
+    public void ShowHUD()
+    {
+        if (hudPanel != null)
+        {
+            hudPanel.SetActive(true);
+        }
+
+        Debug.Log("HUD ACTIVADO");
+    }
+
+    // =====================================================
+    // OCULTAR HUD
+    // =====================================================
+
+    public void HideHUD()
+    {
+        if (hudPanel != null)
+        {
+            hudPanel.SetActive(false);
+        }
+
+        Debug.Log("HUD DESACTIVADO");
+    }
+
+    // =====================================================
+    // REINICIAR RONDA
+    // =====================================================
+
     public void RestartRound()
     {
         Time.timeScale = 1f;
 
         Scene currentScene =
-        SceneManager.GetActiveScene();
+            SceneManager.GetActiveScene();
 
         SceneManager.LoadScene(
             currentScene.buildIndex
         );
     }
 
-    // Pausa
+    // =====================================================
+    // PAUSA
+    // =====================================================
+
     public void TogglePause()
     {
         // No pausar si HUD no está activo
-        if (!hudPanel.activeSelf)
+        if (hudPanel == null ||
+            !hudPanel.activeSelf)
         {
             return;
         }
 
         isPaused = !isPaused;
 
-        pausePanel.SetActive(isPaused);
+        if (pausePanel != null)
+        {
+            pausePanel.SetActive(isPaused);
+        }
 
         if (isPaused)
         {
@@ -155,19 +235,31 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Mostrar pantalla receta manualmente
+    // =====================================================
+    // PANTALLA RECETA
+    // =====================================================
+
     public void ShowRecipeScreen()
     {
         HideAllPanels();
 
-        recipePanel.SetActive(true);
+        if (recipePanel != null)
+        {
+            recipePanel.SetActive(true);
+        }
 
-        AudioManager.Instance.PlayMenuMusic();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMenuMusic();
+        }
 
         Time.timeScale = 0f;
     }
 
-    // Advertencia tiempo
+    // =====================================================
+    // ADVERTENCIA
+    // =====================================================
+
     public void ShowWarningPanel()
     {
         StartCoroutine(
@@ -178,7 +270,10 @@ public class UIManager : MonoBehaviour
         );
     }
 
-    // Tutorial temporal
+    // =====================================================
+    // TUTORIAL
+    // =====================================================
+
     public void ShowTutorialPanel()
     {
         StartCoroutine(
@@ -189,51 +284,87 @@ public class UIManager : MonoBehaviour
         );
     }
 
-    // Ocultar advertencia
+    // =====================================================
+    // OCULTAR ADVERTENCIA
+    // =====================================================
+
     public void HideWarning()
     {
-        warningPanel.SetActive(false);
+        if (warningPanel != null)
+        {
+            warningPanel.SetActive(false);
+        }
     }
 
-    // Mostrar resultados ronda
+    // =====================================================
+    // RESULTADOS
+    // =====================================================
+
     public void ShowResults()
     {
-        resultsPanel.SetActive(true);
+        if (resultsPanel != null)
+        {
+            resultsPanel.SetActive(true);
+        }
     }
 
-    // Mostrar ganador final
+    // =====================================================
+    // GANADOR FINAL
+    // =====================================================
+
     public void ShowFinalWinner()
     {
-        finalWinnerPanel.SetActive(true);
+        if (finalWinnerPanel != null)
+        {
+            finalWinnerPanel.SetActive(true);
+        }
     }
 
-    // Volver al menú principal
+    // =====================================================
+    // VOLVER AL MENÚ
+    // =====================================================
+
     public void ReturnToMenu()
     {
         gameStarted = false;
 
         HideAllPanels();
 
-        mainMenuPanel.SetActive(true);
+        if (mainMenuPanel != null)
+        {
+            mainMenuPanel.SetActive(true);
+        }
 
-        AudioManager.Instance.PlayMenuMusic();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMenuMusic();
+        }
 
         Time.timeScale = 0f;
     }
 
-    // Salir juego
+    // =====================================================
+    // SALIR
+    // =====================================================
+
     public void QuitGame()
     {
         Application.Quit();
 
-        Debug.Log("Salir del juego");
+        Debug.Log("Salir juego");
     }
 
-    // Sonido botones
+    // =====================================================
+    // SONIDO BOTONES
+    // =====================================================
+
     public void PlayButtonSound()
     {
-        AudioManager.Instance.PlaySFX(
-            AudioManager.Instance.buttonClick
-        );
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(
+                AudioManager.Instance.buttonClick
+            );
+        }
     }
 }

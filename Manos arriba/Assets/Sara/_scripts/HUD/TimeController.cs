@@ -7,12 +7,6 @@ using UnityEngine.UI;
 
 public class TimeController : MonoBehaviour
 {
-    [Header("Tiempo")]
-    public float tiempoInicial = 60f;
-
-    // Tiempo actual
-    private float tiempoActual;
-
     [Header("UI")]
     public TextMeshProUGUI textoTiempo;
     public UIManager uiManager;
@@ -21,29 +15,33 @@ public class TimeController : MonoBehaviour
     public Image barraTiempo;
 
     [Header("Estado")]
-
-    // Revisar si el tiempo sigue corriendo
-    private bool corriendo = true;
+    private float tiempoActual;
+    private float tiempoInicial;
+    private bool corriendo = false;
 
     [Header("Managers")]
-
-    //Referencia al ScoreManager
     public ScoreManager scoreManager;
-
-    //Ref al panel manager
     public ResultsPanelManager resultsPanelManager;
 
     private bool warningTriggered = false;
 
+
     void Start()
     {
-        // Reinicia tiempo al iniciar
+        // Leer el tiempo que escribiste en el texto
+        tiempoInicial = ObtenerTiempoDelTexto();
+
         tiempoActual = tiempoInicial;
+
+        // El timer espera al 3, 2, 1
+        corriendo = false;
+
+        ActualizarUI();
     }
+
 
     void Update()
     {
-        // Si el tiempo est� detenido
         if (!corriendo)
         {
             return;
@@ -52,125 +50,227 @@ public class TimeController : MonoBehaviour
         // Restar tiempo
         tiempoActual -= Time.deltaTime;
 
+
         // Warning cuando queden 30 segundos
-    if (tiempoActual <= 30f
-        && !warningTriggered)
-    {
-        warningTriggered = true;
+        if (tiempoActual <= 30f && !warningTriggered)
+        {
+            warningTriggered = true;
 
-        uiManager.ShowWarningPanel();
+            if (uiManager != null)
+            {
+                uiManager.ShowWarningPanel();
+            }
 
-        AudioManager.Instance.PlaySFX(
-        AudioManager.Instance.warningSFX
-        );
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(
+                    AudioManager.Instance.warningSFX
+                );
 
-        AudioManager.Instance.PlayWarningMusic();
-    }
+                AudioManager.Instance.PlayWarningMusic();
+            }
+        }
+
 
         // Evitar negativos
         if (tiempoActual <= 0)
         {
             tiempoActual = 0;
 
-            // Detener tiempo
             corriendo = false;
 
-            // Ejecutar final de ronda
             FinDelTiempo();
         }
 
-        // Actualizar interfaz
+
         ActualizarUI();
     }
 
-    // M�todo que actualiza HUD del tiempo
-    void ActualizarUI()
+
+    // =========================================================
+    // INICIAR TIMER
+    // =========================================================
+
+    public void StartTime()
     {
-        // Obtener minutos
-        int minutos =
-        Mathf.FloorToInt(tiempoActual / 60f);
+        Debug.Log("=================================");
+        Debug.Log("TIME CONTROLLER: INICIANDO");
+        Debug.Log("Tiempo inicial: " + tiempoInicial);
+        Debug.Log("=================================");
 
-        // Obtener segundos
-        int segundos =
-        Mathf.FloorToInt(tiempoActual % 60f);
+        // Volver al tiempo que colocaste en el texto
+        tiempoActual = tiempoInicial;
 
-        // Mostrar tiempo en texto
-        textoTiempo.text =
-        minutos.ToString("00")
-        + ":"
-        + segundos.ToString("00");
+        warningTriggered = false;
 
-        // Normalizar tiempo
-        float t =
-        tiempoActual / tiempoInicial;
+        corriendo = true;
 
-        // Actualizar barra
-        barraTiempo.fillAmount = t;
-
-        // Cambiar color seg�n tiempo
-        barraTiempo.color =
-        Color.Lerp(
-            Color.red,
-            Color.green,
-            t
-        );
+        ActualizarUI();
     }
 
-    // M�todo que ocurre cuando se acaba el tiempo
+
+    // =========================================================
+    // LEER TIEMPO DEL TEXTO
+    // =========================================================
+
+    float ObtenerTiempoDelTexto()
+    {
+        if (textoTiempo == null)
+        {
+            Debug.LogError("No hay Texto Tiempo asignado.");
+            return 0f;
+        }
+
+        string texto = textoTiempo.text.Trim();
+
+        string[] partes = texto.Split(':');
+
+        if (partes.Length != 2)
+        {
+            Debug.LogError(
+                "El tiempo debe tener formato MM:SS. Ejemplo: 01:30"
+            );
+
+            return 0f;
+        }
+
+        int minutos;
+        int segundos;
+
+        if (!int.TryParse(partes[0], out minutos) ||
+            !int.TryParse(partes[1], out segundos))
+        {
+            Debug.LogError(
+                "No se pudo leer el tiempo. Usa formato MM:SS."
+            );
+
+            return 0f;
+        }
+
+        return (minutos * 60f) + segundos;
+    }
+
+
+    // =========================================================
+    // ACTUALIZAR HUD
+    // =========================================================
+
+    void ActualizarUI()
+    {
+        int minutos =
+            Mathf.FloorToInt(tiempoActual / 60f);
+
+        int segundos =
+            Mathf.FloorToInt(tiempoActual % 60f);
+
+
+        if (textoTiempo != null)
+        {
+            textoTiempo.text =
+                minutos.ToString("00")
+                + ":"
+                + segundos.ToString("00");
+        }
+
+
+        if (tiempoInicial > 0)
+        {
+            float t =
+                tiempoActual / tiempoInicial;
+
+
+            if (barraTiempo != null)
+            {
+                barraTiempo.fillAmount = t;
+
+                barraTiempo.color =
+                    Color.Lerp(
+                        Color.red,
+                        Color.green,
+                        t
+                    );
+            }
+        }
+    }
+
+
+    // =========================================================
+    // FINAL DE LA RONDA
+    // =========================================================
+
     void FinDelTiempo()
     {
-        Debug.Log("Se acab� el tiempo");
+        Debug.Log("Se acabó el tiempo");
 
-        // Calcula resultados finales
-        scoreManager.CalculateRoundResults();
 
-        AudioManager.Instance.PlaySFX(
-            AudioManager.Instance.roundEndSFX
-        );
+        if (scoreManager != null)
+        {
+            scoreManager.CalculateRoundResults();
+        }
 
-        AudioManager.Instance.PlayVictoryMusic();
 
-        // Mostrar panel resultados
-        resultsPanelManager.ShowResults();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(
+                AudioManager.Instance.roundEndSFX
+            );
 
-        // Detener movimiento de jugadores
+            AudioManager.Instance.PlayVictoryMusic();
+        }
+
+
+        if (resultsPanelManager != null)
+        {
+            resultsPanelManager.ShowResults();
+        }
+
+
         StopPlayers();
     }
 
-    // M�todo para detener ronda manualmente
+
+    // =========================================================
+    // DETENER TIEMPO
+    // =========================================================
+
     public void StopTime()
     {
-        // Detener tiempo
         corriendo = false;
 
         Debug.Log("Ronda terminada");
     }
 
-    // M�todo para reiniciar tiempo
+
+    // =========================================================
+    // REINICIAR TIEMPO
+    // =========================================================
+
     public void ReiniciarTiempo()
     {
         Debug.Log("Reinicia");
 
-        // Reinicia contador
         tiempoActual = tiempoInicial;
 
-        // Reactiva tiempo
         corriendo = true;
 
         warningTriggered = false;
+
+        ActualizarUI();
     }
 
-    // M�todo que detiene movimiento jugadores
+
+    // =========================================================
+    // DETENER JUGADORES
+    // =========================================================
+
     void StopPlayers()
     {
-        // Busca todos los PlayerMovement
         PlayerMovement[] players =
-        FindObjectsOfType<PlayerMovement>();
+            FindObjectsOfType<PlayerMovement>();
 
-        // Recorre jugadores
+
         foreach (PlayerMovement player in players)
         {
-            // Desactivar script movimiento
             player.enabled = false;
         }
     }
