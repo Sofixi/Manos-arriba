@@ -18355,7 +18355,7 @@ MonoBehaviour:
   rotationSpeed: 5
   gravity: -9.81
   yVelocity: 0
-  jumpHeight: 0.5
+  jumpHeight: 1.5
   isPlayer1: 1
   canMove: 1
 --- !u!114 &675826406
@@ -26146,6 +26146,11 @@ PrefabInstance:
     - target: {fileID: 8744233601241491016, guid: c610849449e64904e80880613985e8ef,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744233601241491016, guid: c610849449e64904e80880613985e8ef,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

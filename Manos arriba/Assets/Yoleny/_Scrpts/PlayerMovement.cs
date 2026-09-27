@@ -61,8 +61,6 @@ public class PlayerMovement : MonoBehaviour
     {
         canMove = enabled;
 
-        // Si bloqueamos al jugador,
-        // nos aseguramos de que no esté en Running.
         if (!enabled && animator != null)
         {
             animator.SetBool("isRunning", false);
@@ -80,26 +78,17 @@ public class PlayerMovement : MonoBehaviour
         bool jump = false;
 
         // =================================================
-        // SI PUEDE MOVERSE
+        // INPUT
         // =================================================
 
         if (canMove)
         {
-            // -----------------------------
-            // JUGADOR 1
-            // -----------------------------
-
             if (isPlayer1)
             {
                 horizontal = _oldInput.horizontalP1;
                 vertical = _oldInput.verticalP1;
                 jump = _oldInput.jumpP1;
             }
-
-            // -----------------------------
-            // JUGADOR 2
-            // -----------------------------
-
             else
             {
                 horizontal = _oldInput.horizontalP2;
@@ -109,7 +98,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // =================================================
-        // ANIMATOR
+        // SUELO
+        // =================================================
+
+        bool grounded = _characterController.isGrounded;
+
+        // =================================================
+        // ANIMACIÓN DE MOVIMIENTO
         // =================================================
 
         float movementAmount =
@@ -120,7 +115,15 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool(
                 "isRunning",
-                canMove && movementAmount > 0.1f
+                canMove &&
+                grounded &&
+                movementAmount > 0.1f
+            );
+
+            // Está saltando cuando NO está en el suelo
+            animator.SetBool(
+                "IsJumping",
+                !grounded
             );
         }
 
@@ -135,24 +138,23 @@ public class PlayerMovement : MonoBehaviour
                 vertical
             );
 
-        // Convertir dirección según la rotación
-        // del personaje
         move = transform.TransformDirection(move);
 
-        // Aplicar velocidad
         move *= speed;
 
         // =================================================
-        // SUELO Y SALTO
+        // SALTO
         // =================================================
 
-        if (_characterController.isGrounded &&
-            yVelocity < 0)
+        if (grounded)
         {
-            // Mantener al personaje pegado al suelo
-            yVelocity = -2f;
+            // Mantener al jugador pegado al suelo
+            if (yVelocity < 0)
+            {
+                yVelocity = -2f;
+            }
 
-            // Solo puede saltar si tiene el movimiento activado
+            // Saltar
             if (canMove && jump)
             {
                 yVelocity =
@@ -160,12 +162,17 @@ public class PlayerMovement : MonoBehaviour
                         jumpHeight * -2f * gravity
                     );
 
-                // Sonido de salto
                 if (AudioManager.Instance != null)
                 {
                     AudioManager.Instance.PlaySFX(
                         AudioManager.Instance.jumpSFX
                     );
+                }
+
+                // Activar animación inmediatamente
+                if (animator != null)
+                {
+                    animator.SetBool("IsJumping", true);
                 }
             }
         }
@@ -176,7 +183,12 @@ public class PlayerMovement : MonoBehaviour
 
         yVelocity += gravity * Time.deltaTime;
 
-        // Movimiento vertical
+        // Evitar que la velocidad de caída se vuelva absurda
+        if (yVelocity < -20f)
+        {
+            yVelocity = -20f;
+        }
+
         move.y = yVelocity;
 
         // =================================================
@@ -195,6 +207,11 @@ public class PlayerMovement : MonoBehaviour
     public void JumpBoost(float force)
     {
         yVelocity = force;
+
+        if (animator != null)
+        {
+            animator.SetBool("IsJumping", true);
+        }
 
         Debug.Log("Boost vertical: " + force);
     }
