@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: c5a037d3d6e537f43aff2a5bc9a3764e, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -7755,6 +7755,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1093805963686176460, guid: e998db5e6b634bc408f39667b8832abb,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.21960784
+      objectReference: {fileID: 0}
+    - target: {fileID: 1093805963686176460, guid: e998db5e6b634bc408f39667b8832abb,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.32941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 1093805963686176460, guid: e998db5e6b634bc408f39667b8832abb,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.96862745
+      objectReference: {fileID: 0}
     - target: {fileID: 6013300693719118847, guid: e998db5e6b634bc408f39667b8832abb,
         type: 3}
       propertyPath: m_Name
@@ -13991,6 +14006,8 @@ MonoBehaviour:
   p2ScoreText: {fileID: 2000151817}
   p2FillImage: {fileID: 807897281}
   scoreManager: {fileID: 482433233}
+  recipeManager: {fileID: 0}
+  finalResultsManager: {fileID: 0}
   nextSceneName: JOSE Nivel 3
 --- !u!114 &482433233
 MonoBehaviour:
@@ -14009,6 +14026,8 @@ MonoBehaviour:
   player2Grab: {fileID: 1865122032}
   player1Score: 0
   player2Score: 0
+  player1TotalScore: 0
+  player2TotalScore: 0
   player1Similarity: 0
   player2Similarity: 0
 --- !u!114 &482433234
@@ -14023,7 +14042,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a99720c4e9534ba47a4e065617dabd41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiempoInicial: 100
   textoTiempo: {fileID: 1830911296}
   uiManager: {fileID: 209133699}
   barraTiempo: {fileID: 755080437}
@@ -16872,6 +16890,8 @@ MonoBehaviour:
   yVelocity: 0
   jumpHeight: 0.5
   isPlayer1: 1
+  canMove: 1
+  deathDelay: 2
 --- !u!143 &614658702
 CharacterController:
   m_ObjectHideFlags: 0
@@ -52046,6 +52066,8 @@ MonoBehaviour:
   yVelocity: 0
   jumpHeight: 0.5
   isPlayer1: 0
+  canMove: 1
+  deathDelay: 2
 --- !u!143 &1865122031
 CharacterController:
   m_ObjectHideFlags: 0
@@ -57265,6 +57287,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1822061875}
     m_Modifications:
+    - target: {fileID: 2872338298446893340, guid: c610849449e64904e80880613985e8ef,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2872338298446893340, guid: c610849449e64904e80880613985e8ef,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.57254905
+      objectReference: {fileID: 0}
+    - target: {fileID: 2872338298446893340, guid: c610849449e64904e80880613985e8ef,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.9411765
+      objectReference: {fileID: 0}
     - target: {fileID: 6440351804861336099, guid: c610849449e64904e80880613985e8ef,
         type: 3}
       propertyPath: m_Name

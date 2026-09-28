@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 3458103695674273708}
   - component: {fileID: 3744765599224145281}
   - component: {fileID: 717919205300294743}
-  - component: {fileID: 8135222819963246040}
-  - component: {fileID: 2673694710104135464}
   m_Layer: 0
   m_Name: Harina
   m_TagString: Ingredient
@@ -34,7 +32,8 @@ Transform:
   m_LocalPosition: {x: -6.160941, y: -0.34988105, z: 1.5397215}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6075446208468177080}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9221794824343140102
@@ -121,25 +120,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredientType: 9
---- !u!108 &8135222819963246040
+--- !u!1 &6748973357595984459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6075446208468177080}
+  - component: {fileID: 2872338298446893340}
+  - component: {fileID: 556968888774650015}
+  m_Layer: 0
+  m_Name: Spot Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6075446208468177080
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748973357595984459}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.6154895, z: 0.7881452, w: 0}
+  m_LocalPosition: {x: -0.05, y: 1.63, z: -0.36}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8744233601241491016}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!108 &2872338298446893340
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6440351804861336099}
+  m_GameObject: {fileID: 6748973357595984459}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 2
+  m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.24056602, b: 0.24056602, a: 1}
-  m_Intensity: 6.67
-  m_Range: 10
+  m_Color: {r: 0.96981126, g: 0.32749116, b: 0.21774997, a: 1}
+  m_Intensity: 13
+  m_Range: 26
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -175,7 +207,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 4.42
+  m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -183,13 +215,13 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &2673694710104135464
+--- !u!114 &556968888774650015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6440351804861336099}
+  m_GameObject: {fileID: 6748973357595984459}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
