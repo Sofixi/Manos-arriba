@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -24,6 +25,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("CONTROL DEL JUGADOR")]
     public bool canMove = true;
 
+    [Header("MUERTE")]
+    public float deathDelay = 2f;
+
+    // Posición inicial
+    private Vector3 startPos;
+    private Quaternion startRotation;
+
+    // Evita activar la muerte varias veces
+    private bool isDead = false;
+
     private float _currentlookingPos;
 
     // =====================================================
@@ -42,6 +53,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _characterController = GetComponent<CharacterController>();
+
+        // Guardar posición inicial
+        startPos = transform.position;
+        startRotation = transform.rotation;
     }
 
     // =====================================================
@@ -50,6 +65,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         PlayerWalk();
     }
 
@@ -77,10 +97,6 @@ public class PlayerMovement : MonoBehaviour
         float vertical = 0f;
         bool jump = false;
 
-        // =================================================
-        // INPUT
-        // =================================================
-
         if (canMove)
         {
             if (isPlayer1)
@@ -104,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
         bool grounded = _characterController.isGrounded;
 
         // =================================================
-        // ANIMACIÓN DE MOVIMIENTO
+        // ANIMACIÓN
         // =================================================
 
         float movementAmount =
@@ -120,7 +136,6 @@ public class PlayerMovement : MonoBehaviour
                 movementAmount > 0.1f
             );
 
-            // Está saltando cuando NO está en el suelo
             animator.SetBool(
                 "IsJumping",
                 !grounded
@@ -148,13 +163,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (grounded)
         {
-            // Mantener al jugador pegado al suelo
             if (yVelocity < 0)
             {
                 yVelocity = -2f;
             }
 
-            // Saltar
             if (canMove && jump)
             {
                 yVelocity =
@@ -169,10 +182,12 @@ public class PlayerMovement : MonoBehaviour
                     );
                 }
 
-                // Activar animación inmediatamente
                 if (animator != null)
                 {
-                    animator.SetBool("IsJumping", true);
+                    animator.SetBool(
+                        "IsJumping",
+                        true
+                    );
                 }
             }
         }
@@ -183,7 +198,6 @@ public class PlayerMovement : MonoBehaviour
 
         yVelocity += gravity * Time.deltaTime;
 
-        // Evitar que la velocidad de caída se vuelva absurda
         if (yVelocity < -20f)
         {
             yVelocity = -20f;
@@ -198,6 +212,82 @@ public class PlayerMovement : MonoBehaviour
         _characterController.Move(
             move * Time.deltaTime
         );
+    }
+
+    // =====================================================
+    // COLISIÓN CON WALL
+    // =====================================================
+
+    private void OnControllerColliderHit(
+        ControllerColliderHit hit
+    )
+    {
+        if (hit.gameObject.CompareTag("Wall"))
+        {
+            Morir();
+        }
+    }
+
+    // =====================================================
+    // MORIR
+    // =====================================================
+
+    private void Morir()
+    {
+        if (isDead)
+        {
+            return;
+        }
+
+        isDead = true;
+        canMove = false;
+        yVelocity = 0f;
+
+        // Animación de muerte
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("IsJumping", false);
+            animator.SetBool("IsDead", true);
+        }
+
+        // Esperar antes de regresar al inicio
+        StartCoroutine(RegresarAlInicio());
+    }
+
+    // =====================================================
+    // REGRESAR AL START POS
+    // =====================================================
+
+    private IEnumerator RegresarAlInicio()
+    {
+        yield return new WaitForSeconds(deathDelay);
+
+        // Desactivar temporalmente el CharacterController
+        _characterController.enabled = false;
+
+        // Volver a la posición inicial
+        transform.position = startPos;
+        transform.rotation = startRotation;
+
+        // Reactivar CharacterController
+        _characterController.enabled = true;
+
+        // Resetear gravedad
+        yVelocity = 0f;
+
+        // Quitar estado de muerte
+        isDead = false;
+
+        // Quitar animación de muerte
+        if (animator != null)
+        {
+            animator.SetBool("IsDead", false);
+            animator.SetBool("IsJumping", false);
+        }
+
+        // Volver a permitir movimiento
+        canMove = true;
     }
 
     // =====================================================
