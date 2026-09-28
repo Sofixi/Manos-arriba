@@ -26179,6 +26179,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Harina
       objectReference: {fileID: 0}
+    - target: {fileID: 8135222819963246040, guid: c610849449e64904e80880613985e8ef,
+        type: 3}
+      propertyPath: m_Range
+      value: 0.9681134
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135222819963246040, guid: c610849449e64904e80880613985e8ef,
+        type: 3}
+      propertyPath: m_Lightmapping
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135222819963246040, guid: c610849449e64904e80880613985e8ef,
+        type: 3}
+      propertyPath: m_BounceIntensity
+      value: 5.06
+      objectReference: {fileID: 0}
     - target: {fileID: 8744233601241491016, guid: c610849449e64904e80880613985e8ef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26234,7 +26249,9 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2673694710104135464, guid: c610849449e64904e80880613985e8ef, type: 3}
+    - {fileID: 8135222819963246040, guid: c610849449e64904e80880613985e8ef, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
