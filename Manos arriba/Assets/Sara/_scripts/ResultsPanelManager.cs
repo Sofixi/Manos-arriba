@@ -128,14 +128,13 @@ public class ResultsPanelManager : MonoBehaviour
             }
 
             text.text =
-            "Similitud: "
+            "Similitud:  "
             + current.ToString("F0")
             + "%";
 
             yield return null;
         }
     }
-
     IEnumerator AnimateScore(
         TextMeshProUGUI text,
         int targetValue)
