@@ -1,0 +1,415 @@
+fileFormatVersion: 2
+guid: d8b1ec3c4452e524fa308678869d0c38
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: "Avatar Rig Configuration mis-match. Inbetween bone rotation
+      in configuration does not match rotation in animation file:\n\t'TedibearSpine1'
+      : rotation error = 5.310099 deg\n\t'TedibearChest' : rotation error = 8.508379
+      deg\n"
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'mixamo.com' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'TedibearSpine1' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'TedibearChest' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: mixamo.com
+      takeName: mixamo.com
+      internalID: -203655887218126122
+      firstFrame: 0
+      lastFrame: 99
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: TedibearHub001
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearLLeg1
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearRLeg1
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearLLeg2
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearRLeg2
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearLLegAnkle
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearRLegAnkle
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearSpine2
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearNeck
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearHead
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearLArmCollarbone
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearRArmCollarbone
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearLArm1
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearRArm1
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearLArm2
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearRArm2
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearLArmPalm
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TedibearRArmPalm
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: Death From Right(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: MSH_Bunny
+      parentName: Death From Right(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tedibear
+      parentName: Death From Right(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.7071069, y: -0.000000053385065, z: -0.70710665, w: -0.00000005338508}
+      scale: {x: 1, y: 1, z: 1}
+    - name: TedibearLLegPlatform
+      parentName: Death From Right(Clone)
+      position: {x: -0.0604915, y: -0.008182006, z: -0.0000000039014987}
+      rotation: {x: 0.7071069, y: -0.000000053385065, z: -0.70710665, w: -0.00000005338508}
+      scale: {x: 1, y: 1, z: 1}
+    - name: TedibearRLegPlatform
+      parentName: Death From Right(Clone)
+      position: {x: 0.0604915, y: -0.008182025, z: -0.0000000039014925}
+      rotation: {x: 0.7071069, y: -0.000000053385065, z: -0.70710665, w: -0.00000005338508}
+      scale: {x: 1, y: 1, z: 1}
+    - name: TedibearHub001
+      parentName: Death From Right(Clone)
+      position: {x: -4.656613e-10, y: 0.2111601, z: 0.0027200638}
+      rotation: {x: 0.50000006, y: -0.49999997, z: -0.5, w: 0.50000006}
+      scale: {x: 1, y: 1, z: 1}
+    - name: TedibearRLeg1
+      parentName: TedibearHub001
+      position: {x: -0, y: 0, z: -0.043348163}
+      rotation: {x: -0.058127783, y: 0.9974206, z: 0.0003556516, w: -0.042109493}
+      scale: {x: 1.0000002, y: 1, z: 1}
+    - name: TedibearRLeg2
+      parentName: TedibearRLeg1
+      position: {x: -0.08200204, y: -0.000000007152557, z: 0.000000052452087}
+      rotation: {x: 0.009331096, y: 0.008187499, z: 0.15566085, w: 0.9877326}
+      scale: {x: 0.9999977, y: 1.0000025, z: 1.0000004}
+    - name: TedibearRLegAnkle
+      parentName: TedibearRLeg2
+      position: {x: -0.10830152, y: -0.0000000011920929, z: 0}
+      rotation: {x: 0.01232855, y: -0.05042068, z: -0.6073927, w: 0.79270416}
+      scale: {x: 0.9999984, y: 1.0000021, z: 1.0000001}
+    - name: TedibearSpine1
+      parentName: TedibearHub001
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000023283064, y: -6.7762636e-17, z: -0.0000000014551915,
+        w: 1}
+      scale: {x: 1, y: 1, z: 0.9999999}
+    - name: TedibearSpine2
+      parentName: TedibearSpine1
+      position: {x: -0.04811647, y: -4.5474734e-15, z: -2.280724e-15}
+      rotation: {x: 7.1054274e-15, y: 3.398717e-16, z: 0.000000004865793, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1}
+    - name: TedibearChest
+      parentName: TedibearSpine2
+      position: {x: -0.048116453, y: 4.5474734e-15, z: -2.2807247e-15}
+      rotation: {x: -7.1054274e-15, y: -4.4151576e-16, z: -0.0000000063209846, w: 1}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000001}
+    - name: TedibearRArmCollarbone
+      parentName: TedibearChest
+      position: {x: -0, y: 0, z: -0.021674082}
+      rotation: {x: -0.00000006963205, y: 0.7951347, z: -0.000000085928576, w: -0.60643286}
+      scale: {x: 1.0000002, y: 0.9999996, z: 0.9999998}
+    - name: TedibearRArm1
+      parentName: TedibearRArmCollarbone
+      position: {x: -0.04038424, y: 0, z: 0}
+      rotation: {x: -0.11176063, y: 0.09829907, z: -0.0060180044, w: 0.9888431}
+      scale: {x: 1, y: 1.0000002, z: 0.99999976}
+    - name: TedibearRArm2
+      parentName: TedibearRArm1
+      position: {x: -0.066923924, y: -0.00000011920929, z: -0.00000019073485}
+      rotation: {x: 0.207515, y: 0.016680717, z: -0.01995413, w: 0.9778861}
+      scale: {x: 1.0000001, y: 1.0000024, z: 0.9999991}
+    - name: TedibearRArmPalm
+      parentName: TedibearRArm2
+      position: {x: -0.059746053, y: -0.00000015258789, z: -0.0000001335144}
+      rotation: {x: -0.0023300033, y: -0.059474878, z: 0.009734016, w: 0.9981797}
+      scale: {x: 0.9999999, y: 1.0000021, z: 0.99999803}
+    - name: TedibearNeck
+      parentName: TedibearChest
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0, y: -2.0328764e-16, z: -0.0000000029103795, w: 1}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1}
+    - name: TedibearHead
+      parentName: TedibearNeck
+      position: {x: -0.05982048, y: 4.5474734e-15, z: -2.8354966e-15}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1}
+    - name: TedibearLArmCollarbone
+      parentName: TedibearChest
+      position: {x: -0, y: 0, z: 0.021674082}
+      rotation: {x: -0.00000003215756, y: 0.7951346, z: 0.00000009298787, w: 0.606433}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1.0000004}
+    - name: TedibearLArm1
+      parentName: TedibearLArmCollarbone
+      position: {x: -0.04038424, y: -4.5474734e-15, z: 0}
+      rotation: {x: 0.11175927, y: -0.098296955, z: -0.0060169674, w: 0.98884344}
+      scale: {x: 1.0000005, y: 1, z: 0.9999996}
+    - name: TedibearLArm2
+      parentName: TedibearLArm1
+      position: {x: -0.06692391, y: 0.00000011920929, z: -0.00000017166137}
+      rotation: {x: -0.20751464, y: -0.016680546, z: -0.019954305, w: 0.9778862}
+      scale: {x: 1.0000004, y: 0.99999845, z: 1.0000019}
+    - name: TedibearLArmPalm
+      parentName: TedibearLArm2
+      position: {x: -0.059746053, y: 0.00000015258789, z: -0.0000001335144}
+      rotation: {x: 0.0023299826, y: 0.059474777, z: 0.009734216, w: 0.9981796}
+      scale: {x: 0.99999994, y: 0.999998, z: 1.0000019}
+    - name: TedibearLLeg1
+      parentName: TedibearHub001
+      position: {x: -0, y: 0, z: 0.043348163}
+      rotation: {x: -0.05812523, y: 0.9974208, z: -0.000356894, w: 0.04210967}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1}
+    - name: TedibearLLeg2
+      parentName: TedibearLLeg1
+      position: {x: -0.082002036, y: -0.00000015497207, z: 0.000000014305114}
+      rotation: {x: -0.009345287, y: -0.008119296, z: 0.15609679, w: 0.9876642}
+      scale: {x: 1.0000019, y: 0.9999983, z: 1.0000004}
+    - name: TedibearLLegAnkle
+      parentName: TedibearLLeg2
+      position: {x: -0.10830152, y: -0.0000000011920929, z: 0.0000000047683715}
+      rotation: {x: -0.0123024145, y: 0.050323576, z: -0.60766625, w: 0.79250115}
+      scale: {x: 1.0000021, y: 0.99999815, z: 1.0000001}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

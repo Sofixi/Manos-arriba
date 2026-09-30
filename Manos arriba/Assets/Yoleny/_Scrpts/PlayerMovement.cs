@@ -248,7 +248,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("isRunning", false);
             animator.SetBool("IsJumping", false);
-            animator.SetBool("IsDead", true);
+            animator.SetTrigger("IsDead"); // <-- Usar SetTrigger aquí mari //
         }
 
         // Esperar antes de regresar al inicio
@@ -283,7 +283,7 @@ public class PlayerMovement : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool("IsDead", false);
-            animator.SetBool("IsJumping", false);
+            
         }
 
         // Volver a permitir movimiento
@@ -305,4 +305,43 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log("Boost vertical: " + force);
     }
+
+ //Mari animacion recoger//
+ // =====================================================
+    // DETECTAR INGREDIENTES / OBJETOS Y ACTIVAR ANIMACIÓN
+    // =====================================================
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ingredient") || other.CompareTag("Item"))
+        {
+            TriggerPickUp();
+        }
+    }
+
+    public void TriggerPickUp()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("IsPickUp");
+        }
+    }
+    // =====================================================
+    // ACTIVAR ANIMACIÓN DE VICTORIA AL LLEGAR A LA META
+    // =====================================================
+
+    public void Ganar()
+    {
+        canMove = false;
+        yVelocity = 0f;
+
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("IsJumping", false);
+            animator.SetTrigger("IsWin");
+        }
+    
+    }
+    
 }
