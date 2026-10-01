@@ -6071,8 +6071,9 @@ MonoBehaviour:
   heldObject: {fileID: 0}
   holdPoint: {fileID: 1154812969}
   grabDistance: 2
+  stolenIngredientsThisRound: 0
   grabKey: 303
-  dropKey: 108
+  dropKey: 305
 --- !u!143 &239237314
 CharacterController:
   m_ObjectHideFlags: 0
@@ -11441,7 +11442,7 @@ GameObject:
   - component: {fileID: 420204326}
   - component: {fileID: 420204325}
   m_Layer: 5
-  m_Name: TEXTOPorcentaje (1)
+  m_Name: CuerpoPorcentaje (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14174,11 +14175,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resultsPanel: {fileID: 862940329}
-  p1SimilarityText: {fileID: 2067312918}
-  p1ScoreText: {fileID: 1369408835}
+  p1SimilarityText: {fileID: 28676417}
+  p1IngredientPointsText: {fileID: 2067312918}
+  p1StealPointsText: {fileID: 452568355}
+  p1SimilarityPointsText: {fileID: 2049937540}
+  p1ScoreText: {fileID: 753231449}
   p1FillImage: {fileID: 833148591}
-  p2SimilarityText: {fileID: 0}
-  p2ScoreText: {fileID: 0}
+  p2SimilarityText: {fileID: 113118966}
+  p2IngredientPointsText: {fileID: 825370888}
+  p2StealPointsText: {fileID: 1980207668}
+  p2SimilarityPointsText: {fileID: 1717366794}
+  p2ScoreText: {fileID: 1192056956}
   p2FillImage: {fileID: 807897281}
   scoreManager: {fileID: 482433233}
   recipeManager: {fileID: 482433229}
@@ -14199,12 +14206,21 @@ MonoBehaviour:
   recipeManager: {fileID: 482433229}
   player1Grab: {fileID: 675826403}
   player2Grab: {fileID: 239237313}
+  pointsPerIngredient: 20
+  pointsPerSteal: 10
+  maxSimilarityPoints: 50
   player1Score: 0
   player2Score: 0
   player1TotalScore: 0
   player2TotalScore: 0
   player1Similarity: 0
   player2Similarity: 0
+  player1IngredientPoints: 0
+  player2IngredientPoints: 0
+  player1StealPoints: 0
+  player2StealPoints: 0
+  player1SimilarityPoints: 0
+  player2SimilarityPoints: 0
 --- !u!114 &482433234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19729,6 +19745,7 @@ MonoBehaviour:
   heldObject: {fileID: 0}
   holdPoint: {fileID: 389381574}
   grabDistance: 2
+  stolenIngredientsThisRound: 0
   grabKey: 101
   dropKey: 113
 --- !u!143 &675826404
@@ -21921,7 +21938,7 @@ GameObject:
   - component: {fileID: 753231450}
   - component: {fileID: 753231449}
   m_Layer: 5
-  m_Name: Total (1)
+  m_Name: '#Total (1)'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25119,7 +25136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &862940330
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35917,7 +35934,7 @@ GameObject:
   - component: {fileID: 1192056957}
   - component: {fileID: 1192056956}
   m_Layer: 5
-  m_Name: Total (3)
+  m_Name: '#Total (3)'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57959,7 +57976,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cb988262c652ffd49b4551cc5a70df45,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.99
+      value: -6.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb988262c652ffd49b4551cc5a70df45,
         type: 3}

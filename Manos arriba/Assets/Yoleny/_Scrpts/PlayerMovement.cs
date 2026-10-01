@@ -313,7 +313,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ingredient") || other.CompareTag("Item"))
+        if (other.CompareTag("Ingredient"))
         {
             TriggerPickUp();
         }

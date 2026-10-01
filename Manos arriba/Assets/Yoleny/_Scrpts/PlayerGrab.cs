@@ -11,6 +11,7 @@ public class PlayerGrab : MonoBehaviour
     public List<IngredientType> inventory =
         new List<IngredientType>();
 
+
     // =====================================================
     // OBJETO EN LA MANO
     // =====================================================
@@ -23,12 +24,24 @@ public class PlayerGrab : MonoBehaviour
     // Distancia para agarrar ingredientes
     public float grabDistance = 2f;
 
+
+    // =====================================================
+    // PUNTAJE DE ROBOS
+    // =====================================================
+
+    [Header("Puntaje")]
+
+    // Cantidad de ingredientes robados durante esta ronda
+    public int stolenIngredientsThisRound = 0;
+
+
     // =====================================================
     // TECLAS
     // =====================================================
 
     public KeyCode grabKey = KeyCode.E;
     public KeyCode dropKey = KeyCode.Q;
+
 
     // =====================================================
     // UPDATE
@@ -48,6 +61,7 @@ public class PlayerGrab : MonoBehaviour
             DropIngredient();
         }
     }
+
 
     // =====================================================
     // BUSCAR INGREDIENTE
@@ -73,6 +87,7 @@ public class PlayerGrab : MonoBehaviour
                 continue;
             }
 
+
             // =============================================
             // REVISAR TAG
             // =============================================
@@ -81,6 +96,7 @@ public class PlayerGrab : MonoBehaviour
             {
                 continue;
             }
+
 
             // =============================================
             // COMPROBAR QUE REALMENTE SEA INGREDIENTE
@@ -94,14 +110,17 @@ public class PlayerGrab : MonoBehaviour
                 continue;
             }
 
+
             GameObject newIngredient =
                 hit.gameObject;
+
 
             // Evitar agarrar el mismo objeto
             if (newIngredient == heldObject)
             {
                 continue;
             }
+
 
             // =============================================
             // AGARRAR
@@ -112,6 +131,7 @@ public class PlayerGrab : MonoBehaviour
             break;
         }
     }
+
 
     // =====================================================
     // AGARRAR INGREDIENTE
@@ -128,11 +148,13 @@ public class PlayerGrab : MonoBehaviour
             return;
         }
 
+
         // Nunca agarrar al propio jugador
         if (newIngredient.transform.root == transform.root)
         {
             return;
         }
+
 
         // Comprobar que tenga Ingredient
         Ingredient ingredient =
@@ -143,12 +165,14 @@ public class PlayerGrab : MonoBehaviour
             return;
         }
 
+
         // =============================================
         // BUSCAR JUGADORES
         // =============================================
 
         PlayerGrab[] players =
             FindObjectsOfType<PlayerGrab>();
+
 
         // =============================================
         // ROBAR INGREDIENTE
@@ -159,9 +183,20 @@ public class PlayerGrab : MonoBehaviour
             if (player != this &&
                 player.heldObject == newIngredient)
             {
+                // Contar el robo
+                stolenIngredientsThisRound++;
+
+                // Hacer que el otro jugador lo suelte
                 player.ForceDrop();
+
+                Debug.Log(
+                    gameObject.name +
+                    " ROBÓ un ingrediente a " +
+                    player.gameObject.name
+                );
             }
         }
+
 
         // =============================================
         // SI YA TENGO UN INGREDIENTE
@@ -179,17 +214,20 @@ public class PlayerGrab : MonoBehaviour
                 );
             }
 
+
             // Destruir ingrediente anterior
             Destroy(heldObject);
 
             heldObject = null;
         }
 
+
         // =============================================
         // GUARDAR INGREDIENTE
         // =============================================
 
         heldObject = newIngredient;
+
 
         // =============================================
         // SONIDO
@@ -201,6 +239,7 @@ public class PlayerGrab : MonoBehaviour
                 AudioManager.Instance.pickupSFX
             );
         }
+
 
         // =============================================
         // RIGIDBODY
@@ -218,6 +257,7 @@ public class PlayerGrab : MonoBehaviour
             rb.isKinematic = true;
         }
 
+
         // =============================================
         // HACER HIJO DEL HOLD POINT
         // =============================================
@@ -228,13 +268,16 @@ public class PlayerGrab : MonoBehaviour
                 holdPoint
             );
 
+
             // Posición exacta en la mano
             heldObject.transform.localPosition =
                 Vector3.zero;
 
+
             // Rotación exacta
             heldObject.transform.localRotation =
                 Quaternion.identity;
+
 
             // Escala normal
             heldObject.transform.localScale =
@@ -248,12 +291,14 @@ public class PlayerGrab : MonoBehaviour
             );
         }
 
+
         Debug.Log(
             gameObject.name +
             " agarró ingrediente: " +
             newIngredient.name
         );
     }
+
 
     // =====================================================
     // SOLTAR INGREDIENTE
@@ -266,16 +311,20 @@ public class PlayerGrab : MonoBehaviour
             return;
         }
 
+
         GameObject ingredientToDrop =
             heldObject;
 
+
         heldObject = null;
+
 
         // =============================================
         // QUITAR PADRE
         // =============================================
 
         ingredientToDrop.transform.SetParent(null);
+
 
         // =============================================
         // POSICIÓN DEL INGREDIENTE
@@ -294,6 +343,7 @@ public class PlayerGrab : MonoBehaviour
                 transform.forward;
         }
 
+
         // =============================================
         // RIGIDBODY
         // =============================================
@@ -310,11 +360,13 @@ public class PlayerGrab : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
 
+
         Debug.Log(
             gameObject.name +
             " soltó ingrediente"
         );
     }
+
 
     // =====================================================
     // FORZAR SOLTAR
@@ -327,13 +379,17 @@ public class PlayerGrab : MonoBehaviour
             return;
         }
 
+
         GameObject ingredientToDrop =
             heldObject;
 
+
         heldObject = null;
+
 
         // Quitar padre
         ingredientToDrop.transform.SetParent(null);
+
 
         // =============================================
         // RIGIDBODY
@@ -351,11 +407,13 @@ public class PlayerGrab : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
 
+
         Debug.Log(
             gameObject.name +
             " perdió su ingrediente porque otro jugador lo robó."
         );
     }
+
 
     // =====================================================
     // GIZMO
@@ -371,3 +429,4 @@ public class PlayerGrab : MonoBehaviour
         );
     }
 }
+
