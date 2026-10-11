@@ -27,7 +27,12 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("MUERTE")]
     public float deathDelay = 2f;
+    [Header("MANCHA DE GRASA")]
+    public GameObject manchaPantalla;
+    public float duracionMancha = 3f;
+    public float multiplicadorGrasa = 0.5f;
 
+    private Coroutine efectoGrasa;
     // Posición inicial
     private Vector3 startPos;
     private Quaternion startRotation;
@@ -329,7 +334,81 @@ public class PlayerMovement : MonoBehaviour
     // =====================================================
     // ACTIVAR ANIMACIÓN DE VICTORIA AL LLEGAR A LA META
     // =====================================================
+    public void ActivarGrasa()
+    {
+        // Evitar reiniciar el efecto si ya está activo
+        if (efectoGrasa != null)
+            return;
 
+        efectoGrasa = StartCoroutine(EfectoGrasa());
+    }
+
+    private IEnumerator EfectoGrasa()
+    {
+        float velocidadOriginal = speed;
+
+        // Reducir velocidad
+        speed = velocidadOriginal * multiplicadorGrasa;
+
+        if (manchaPantalla != null)
+        {
+            manchaPantalla.SetActive(true);
+
+            // Obtener la imagen del Canvas
+            UnityEngine.UI.Image imagen =
+                manchaPantalla.GetComponent<UnityEngine.UI.Image>();
+
+            // Si la imagen está dentro de otro objeto
+            if (imagen == null)
+            {
+                imagen =
+                    manchaPantalla.GetComponentInChildren<UnityEngine.UI.Image>();
+            }
+
+            if (imagen != null)
+            {
+                Color color = imagen.color;
+
+                // Aparecer completamente visible
+                color.a = 1f;
+                imagen.color = color;
+
+                float tiempo = 0f;
+
+                while (tiempo < duracionMancha)
+                {
+                    tiempo += Time.deltaTime;
+
+                    // Desvanecer durante los 3 segundos
+                    color.a = Mathf.Lerp(
+                        1f,
+                        0f,
+                        tiempo / duracionMancha
+                    );
+
+                    imagen.color = color;
+
+                    yield return null;
+                }
+            }
+            else
+            {
+                // Si no hay Image, esperar normalmente
+                yield return new WaitForSeconds(duracionMancha);
+            }
+
+            manchaPantalla.SetActive(false);
+        }
+        else
+        {
+            yield return new WaitForSeconds(duracionMancha);
+        }
+
+        // Restaurar velocidad
+        speed = velocidadOriginal;
+
+        efectoGrasa = null;
+    }
     public void Ganar()
     {
         canMove = false;
