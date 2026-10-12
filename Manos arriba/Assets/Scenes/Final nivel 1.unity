@@ -13325,7 +13325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de59cd153b0550441833a13b6b014134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 22
+  jumpForce: 23
 --- !u!1 &461665989
 GameObject:
   m_ObjectHideFlags: 0
@@ -37685,7 +37685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de59cd153b0550441833a13b6b014134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 22
+  jumpForce: 23
 --- !u!1 &1226890391 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f912ac1aff5fe8b4fb397be7e6312b8f,
@@ -64755,6 +64755,7 @@ SceneRoots:
   - {fileID: 405923174}
   - {fileID: 1387217485}
   - {fileID: 1830860075}
+  - {fileID: 836965118}
   - {fileID: 237784373}
   - {fileID: 1937016473}
   - {fileID: 1230555252}
@@ -64762,7 +64763,6 @@ SceneRoots:
   - {fileID: 1265731230}
   - {fileID: 1922592067}
   - {fileID: 1589019562}
-  - {fileID: 836965118}
   - {fileID: 1407047554}
   - {fileID: 1036845754}
   - {fileID: 2132002657}

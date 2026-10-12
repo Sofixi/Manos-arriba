@@ -37,32 +37,23 @@ public class UIManager : MonoBehaviour
     {
         HideAllPanels();
 
-        // =============================================
-        // SI YA INICIÓ EL JUEGO
-        // =============================================
-
         if (gameStarted)
         {
-            // Mostrar pantalla receta
-            recipePanel.SetActive(true);
+            // Es una escena posterior: no repetir menú ni receta.
+            // La cinemática y el contador se encargan
+            // de preparar el inicio de esta ronda.
+            Time.timeScale = 1f;
 
-            // Música de espera / menú
             if (AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayMenuMusic();
+                AudioManager.Instance.PlayGameplayMusic();
             }
-
-            // Pausar gameplay
-            Time.timeScale = 0f;
         }
-
-        // =============================================
-        // PRIMERA VEZ
-        // =============================================
-
         else
         {
-            mainMenuPanel.SetActive(true);
+            // Primera entrada al juego.
+            if (mainMenuPanel != null)
+                mainMenuPanel.SetActive(true);
 
             if (AudioManager.Instance != null)
             {

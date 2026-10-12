@@ -257,6 +257,10 @@ public class PlayerMovement : MonoBehaviour
         // ESTA LÍNEA FALTABA
         StartCoroutine(EsperarMuerte());
     }
+    public void MorirPorObstaculo()
+    {
+        Morir();
+    }
     private IEnumerator EsperarMuerte()
     {
         if (animator == null)
