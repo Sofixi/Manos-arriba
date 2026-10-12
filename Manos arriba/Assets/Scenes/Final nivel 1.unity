@@ -14352,7 +14352,7 @@ MonoBehaviour:
   scoreManager: {fileID: 482433233}
   recipeManager: {fileID: 482433229}
   finalResultsManager: {fileID: 0}
-  nextSceneName: JOSE Nivel 2
+  nextSceneName: Final nivel 2
 --- !u!114 &482433233
 MonoBehaviour:
   m_ObjectHideFlags: 0
