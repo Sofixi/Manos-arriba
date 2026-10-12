@@ -357,7 +357,29 @@ public class UIManager : MonoBehaviour
     // =====================================================
     // SONIDO BOTONES
     // =====================================================
+    public void ContinueToRecipe()
+    {
+        // Ocultar tutorial
+        if (tutorialPanel != null)
+        {
+            tutorialPanel.SetActive(false);
+        }
 
+        // Mostrar panel de receta
+        if (recipePanel != null)
+        {
+            recipePanel.SetActive(true);
+        }
+
+        // Mantener el juego pausado
+        Time.timeScale = 0f;
+
+        // Música de menú
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMenuMusic();
+        }
+    }
     public void PlayButtonSound()
     {
         if (AudioManager.Instance != null)
