@@ -227,7 +227,13 @@ public class PlayerGrab : MonoBehaviour
         // =============================================
 
         heldObject = newIngredient;
+        // Activar la animación solo al agarrar un ingrediente
+        PlayerMovement movimiento = GetComponent<PlayerMovement>();
 
+        if (movimiento != null)
+        {
+            movimiento.TriggerPickUp();
+        }
 
         // =============================================
         // SONIDO

@@ -239,59 +239,104 @@ public class PlayerMovement : MonoBehaviour
 
     private void Morir()
     {
-        if (isDead)
-        {
-            return;
-        }
+        if (isDead) return;
 
         isDead = true;
         canMove = false;
         yVelocity = 0f;
 
-        // Animación de muerte
         if (animator != null)
         {
             animator.SetBool("isRunning", false);
             animator.SetBool("IsJumping", false);
-            animator.SetTrigger("IsDead"); // <-- Usar SetTrigger aquí mari //
+
+            animator.ResetTrigger("IsDead");
+            animator.SetTrigger("IsDead");
         }
 
-        // Esperar antes de regresar al inicio
-        StartCoroutine(RegresarAlInicio());
+        // ESTA LÍNEA FALTABA
+        StartCoroutine(EsperarMuerte());
+    }
+    private IEnumerator EsperarMuerte()
+    {
+        if (animator == null)
+        {
+            yield return new WaitForSeconds(deathDelay);
+            RegresarAlInicio();
+            yield break;
+        }
+
+        // Dar tiempo a Unity para procesar el Trigger.
+        yield return null;
+
+        float tiempoEspera = 0f;
+        float limiteEspera = 2f;
+
+        // Esperar a que entre en el estado de muerte.
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Dead")
+               && tiempoEspera < limiteEspera)
+        {
+            tiempoEspera += Time.deltaTime;
+            yield return null;
+        }
+
+        // Si no entró en Dead, evitar que quede congelado.
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+        {
+            Debug.LogError(
+                "No se encontró el estado Dead. Revisa la transición del Animator."
+            );
+
+            RegresarAlInicio();
+            yield break;
+        }
+
+        // Esperar a que termine de entrar al estado.
+        while (animator.IsInTransition(0))
+        {
+            yield return null;
+        }
+
+        // Esperar a que termine toda la animación.
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Dead")
+               && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        RegresarAlInicio();
     }
 
     // =====================================================
     // REGRESAR AL START POS
     // =====================================================
 
-    private IEnumerator RegresarAlInicio()
+    private void RegresarAlInicio()
     {
-        yield return new WaitForSeconds(deathDelay);
+        CharacterController controller = GetComponent<CharacterController>();
 
-        // Desactivar temporalmente el CharacterController
-        _characterController.enabled = false;
+        if (controller != null)
+            controller.enabled = false;
 
-        // Volver a la posición inicial
+        // Regresar a la posición inicial
         transform.position = startPos;
         transform.rotation = startRotation;
 
-        // Reactivar CharacterController
-        _characterController.enabled = true;
-
-        // Resetear gravedad
         yVelocity = 0f;
 
-        // Quitar estado de muerte
-        isDead = false;
+        if (controller != null)
+            controller.enabled = true;
 
-        // Quitar animación de muerte
         if (animator != null)
         {
-            animator.SetBool("IsDead", false);
-            
+            animator.ResetTrigger("IsDead");
+            animator.SetBool("isRunning", false);
+            animator.SetBool("IsJumping", false);
         }
 
-        // Volver a permitir movimiento
+        isDead = false;
         canMove = true;
     }
 
@@ -316,13 +361,6 @@ public class PlayerMovement : MonoBehaviour
     // DETECTAR INGREDIENTES / OBJETOS Y ACTIVAR ANIMACIÓN
     // =====================================================
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Ingredient"))
-        {
-            TriggerPickUp();
-        }
-    }
 
     public void TriggerPickUp()
     {
