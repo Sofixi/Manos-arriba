@@ -247,6 +247,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredientType: 6
+  floatHeight: 0.15
+  floatSpeed: 2
+  rotationSpeed: 50
 --- !u!54 &1296117493996473342
 Rigidbody:
   m_ObjectHideFlags: 0
