@@ -33,36 +33,49 @@ public class UIManager : MonoBehaviour
     // START
     // =====================================================
 
-    void Start()
+
+void Start()
     {
         HideAllPanels();
 
-        if (gameStarted)
+        // Si venimos de la pantalla final,
+        // mostrar el menú principal sin iniciar la partida.
+        if (PlayerPrefs.GetInt("VolverAlMenu", 0) == 1)
         {
-            // Es una escena posterior: no repetir menú ni receta.
-            // La cinemática y el contador se encargan
-            // de preparar el inicio de esta ronda.
-            Time.timeScale = 1f;
+            PlayerPrefs.SetInt("VolverAlMenu", 0);
+            PlayerPrefs.Save();
 
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayGameplayMusic();
-            }
-        }
-        else
-        {
-            // Primera entrada al juego.
+            gameStarted = false;
+
             if (mainMenuPanel != null)
                 mainMenuPanel.SetActive(true);
 
             if (AudioManager.Instance != null)
-            {
                 AudioManager.Instance.PlayMenuMusic();
-            }
+
+            Time.timeScale = 0f;
+            return;
+        }
+
+        if (gameStarted)
+        {
+            Time.timeScale = 1f;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayGameplayMusic();
+        }
+        else
+        {
+            if (mainMenuPanel != null)
+                mainMenuPanel.SetActive(true);
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayMenuMusic();
 
             Time.timeScale = 0f;
         }
     }
+
 
     // =====================================================
     // UPDATE

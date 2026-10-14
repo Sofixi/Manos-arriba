@@ -69,69 +69,66 @@ public class PlayerGrab : MonoBehaviour
 
     void TryPickIngredient()
     {
-        Collider[] hits =
-            Physics.OverlapSphere(
-                transform.position,
-                grabDistance
-            );
+        Collider[] hits = Physics.OverlapSphere(transform.position, grabDistance);
+
+        Debug.Log(gameObject.name + " presionó la tecla para agarrar.");
 
         foreach (Collider hit in hits)
         {
-            // =============================================
-            // PROTECCIÓN:
-            // NO AGARRAR EL PROPIO JUGADOR
-            // =============================================
+            Debug.Log("Objeto detectado: " + hit.name +
+                      " | Tag: " + hit.tag);
 
             if (hit.transform.root == transform.root)
-            {
                 continue;
-            }
-
-
-            // =============================================
-            // REVISAR TAG
-            // =============================================
 
             if (!hit.CompareTag("Ingredient"))
-            {
                 continue;
-            }
 
-
-            // =============================================
-            // COMPROBAR QUE REALMENTE SEA INGREDIENTE
-            // =============================================
-
-            Ingredient ingredient =
-                hit.GetComponent<Ingredient>();
+            Ingredient ingredient = hit.GetComponent<Ingredient>();
 
             if (ingredient == null)
             {
+                Debug.LogWarning("El objeto tiene Tag Ingredient, pero no tiene el script Ingredient: " + hit.name);
                 continue;
             }
 
+            GameObject newIngredient = hit.gameObject;
 
-            GameObject newIngredient =
-                hit.gameObject;
+            PlayerGrab[] players = FindObjectsOfType<PlayerGrab>();
 
-
-            // Evitar agarrar el mismo objeto
-            if (newIngredient == heldObject)
+            foreach (PlayerGrab player in players)
             {
-                continue;
+                if (player == this)
+                    continue;
+
+                Debug.Log(
+                    "Jugador revisado: " + player.name +
+                    " | Objeto que sostiene: " +
+                    (player.heldObject != null ? player.heldObject.name : "NINGUNO") +
+                    " | Objeto que se intenta agarrar: " + newIngredient.name
+                );
+
+                if (player.heldObject == newIngredient)
+                {
+                    stolenIngredientsThisRound++;
+
+                    Debug.LogWarning(
+                        "ROBO DETECTADO. " + gameObject.name +
+                        " robó a " + player.gameObject.name +
+                        " | Total de robos: " + stolenIngredientsThisRound
+                    );
+
+                    player.ForceDrop();
+                }
             }
 
-
-            // =============================================
-            // AGARRAR
-            // =============================================
+            if (newIngredient == heldObject)
+                continue;
 
             PickIngredient(newIngredient);
-
             break;
         }
     }
-
 
     // =====================================================
     // AGARRAR INGREDIENTE
@@ -192,7 +189,9 @@ public class PlayerGrab : MonoBehaviour
                 Debug.Log(
                     gameObject.name +
                     " ROBÓ un ingrediente a " +
-                    player.gameObject.name
+                    player.gameObject.name +
+                    ". Robos esta ronda: " +
+                    stolenIngredientsThisRound
                 );
             }
         }

@@ -6117,7 +6117,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 056
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a8c17e66f09ec71418b52c49bd934f99, type: 2}
   m_sharedMaterial: {fileID: -2756095431624830165, guid: a8c17e66f09ec71418b52c49bd934f99,
@@ -9283,12 +9283,12 @@ PrefabInstance:
     - target: {fileID: 625893469827817800, guid: e998db5e6b634bc408f39667b8832abb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.03
+      value: 1.39
       objectReference: {fileID: 0}
     - target: {fileID: 625893469827817800, guid: e998db5e6b634bc408f39667b8832abb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.02
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 625893469827817800, guid: e998db5e6b634bc408f39667b8832abb,
         type: 3}
@@ -15649,6 +15649,7 @@ MonoBehaviour:
   recipeManager: {fileID: 482433229}
   player1Grab: {fileID: 601735480}
   player2Grab: {fileID: 1238898538}
+  reiniciarAcumuladoAlIniciar: 0
   pointsPerIngredient: 20
   pointsPerSteal: 10
   maxSimilarityPoints: 50
@@ -15781,12 +15782,12 @@ PrefabInstance:
     - target: {fileID: 1081207532897379032, guid: eb90dd35a5cc2fb4fa7824d4f8cfc461,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 38.87
+      value: 37.99
       objectReference: {fileID: 0}
     - target: {fileID: 1081207532897379032, guid: eb90dd35a5cc2fb4fa7824d4f8cfc461,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.04
+      value: 5.43
       objectReference: {fileID: 0}
     - target: {fileID: 1081207532897379032, guid: eb90dd35a5cc2fb4fa7824d4f8cfc461,
         type: 3}
@@ -23074,7 +23075,7 @@ Transform:
   m_GameObject: {fileID: 730905725}
   serializedVersion: 2
   m_LocalRotation: {x: 0.1641869, y: 0, z: 0, w: 0.9864293}
-  m_LocalPosition: {x: -0.01, y: 0.81, z: -0.82}
+  m_LocalPosition: {x: 0, y: 0.73, z: -0.58}
   m_LocalScale: {x: 0.21881838, y: 0.21881837, z: 0.2188184}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25399,7 +25400,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 056
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a8c17e66f09ec71418b52c49bd934f99, type: 2}
   m_sharedMaterial: {fileID: -2756095431624830165, guid: a8c17e66f09ec71418b52c49bd934f99,
@@ -56941,7 +56942,7 @@ PrefabInstance:
     - target: {fileID: 967841654010240949, guid: e45d6d04c1624c44daac411aac897ef6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.169
+      value: 4.15
       objectReference: {fileID: 0}
     - target: {fileID: 967841654010240949, guid: e45d6d04c1624c44daac411aac897ef6,
         type: 3}
@@ -58361,7 +58362,7 @@ Transform:
   m_GameObject: {fileID: 1868788859}
   serializedVersion: 2
   m_LocalRotation: {x: 0.1641869, y: 0, z: 0, w: 0.9864293}
-  m_LocalPosition: {x: -0.01, y: 0.81, z: -0.82}
+  m_LocalPosition: {x: -0.07, y: 0.73, z: -0.58}
   m_LocalScale: {x: 0.21881841, y: 0.21881837, z: 0.2188184}
   m_ConstrainProportionsScale: 0
   m_Children: []

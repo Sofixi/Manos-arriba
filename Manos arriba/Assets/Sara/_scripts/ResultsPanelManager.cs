@@ -193,26 +193,40 @@ public class ResultsPanelManager : MonoBehaviour
     // SIGUIENTE RONDA
     // =====================================================
 
+
     public void NextRound()
     {
-        // Si NO hay siguiente escena
-        // entonces mostrar panel final
-
-        if (string.IsNullOrEmpty(nextSceneName))
+        if (scoreManager == null)
         {
-            // Ocultar panel resultados
-            resultsPanel.SetActive(false);
-
-            // Mostrar panel final
-            finalResultsManager.ShowFinalResults();
-
+            Debug.LogError("ERROR: ResultsPanelManager no tiene asignado el ScoreManager.");
             return;
         }
 
+        int puntajeP1 = scoreManager.player1TotalScore;
+        int puntajeP2 = scoreManager.player2TotalScore;
 
-        // Cargar siguiente escena
-        SceneManager.LoadScene(nextSceneName);
+        Debug.Log("ANTES DE CAMBIAR DE ESCENA:");
+        Debug.Log("P1 acumulado: " + puntajeP1);
+        Debug.Log("P2 acumulado: " + puntajeP2);
+
+        PlayerPrefs.SetInt("PuntajeFinalP1", puntajeP1);
+        PlayerPrefs.SetInt("PuntajeFinalP2", puntajeP2);
+        PlayerPrefs.Save();
+
+        Debug.Log("GUARDADO EN PLAYERPREFS:");
+        Debug.Log("P1: " + PlayerPrefs.GetInt("PuntajeFinalP1", -1));
+        Debug.Log("P2: " + PlayerPrefs.GetInt("PuntajeFinalP2", -1));
+
+        if (!string.IsNullOrEmpty(nextSceneName))
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.LogError("ERROR: No has asignado Next Scene Name.");
+        }
     }
+
 
 
     // =====================================================

@@ -1,109 +1,88 @@
+
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    // =====================================================
-    // SCRIPT DE EVALUACIÓN Y PUNTAJE
-    // =====================================================
-
     [Header("Managers")]
-
-    // Referencia al RecipeManager
     public RecipeManager recipeManager;
-
-    // Referencia jugador 1
     public PlayerGrab player1Grab;
-
-    // Referencia jugador 2
     public PlayerGrab player2Grab;
 
+    [Header("Guardar puntajes entre niveles")]
+    public bool reiniciarAcumuladoAlIniciar = false;
 
-    // =====================================================
-    // CONFIGURACIÓN DE PUNTOS
-    // =====================================================
+    private const string CLAVE_PUNTAJE_P1 = "PuntajeAcumuladoP1";
+    private const string CLAVE_PUNTAJE_P2 = "PuntajeAcumuladoP2";
 
     [Header("Configuración de puntos")]
-
-    // Puntos por cada ingrediente correcto
     public int pointsPerIngredient = 20;
-
-    // Puntos extra por robar un ingrediente
     public int pointsPerSteal = 10;
-
-    // Máximo de puntos que puede dar la similitud
     public int maxSimilarityPoints = 50;
 
-
-    // =====================================================
-    // PUNTAJE DE LA RONDA
-    // =====================================================
-
     [Header("Round Scores")]
-
-    // Puntaje de la ronda jugador 1
     public int player1Score;
-
-    // Puntaje de la ronda jugador 2
     public int player2Score;
 
-
-    // =====================================================
-    // PUNTAJE TOTAL
-    // =====================================================
-
     [Header("Total Scores")]
-
-    // Puntaje acumulado jugador 1
     public int player1TotalScore;
-
-    // Puntaje acumulado jugador 2
     public int player2TotalScore;
 
-
-    // =====================================================
-    // SIMILITUD
-    // =====================================================
-
     [Header("Similarity")]
-
-    // Porcentaje de similitud jugador 1
-    [HideInInspector]
-    public float player1Similarity;
-
-    // Porcentaje de similitud jugador 2
-    [HideInInspector]
-    public float player2Similarity;
-
-
-    // =====================================================
-    // RESULTADOS DETALLADOS
-    // =====================================================
+    [HideInInspector] public float player1Similarity;
+    [HideInInspector] public float player2Similarity;
 
     [Header("Desglose de puntos")]
-
-    // Puntos por ingredientes correctos
     public int player1IngredientPoints;
     public int player2IngredientPoints;
 
-    // Puntos por ingredientes robados
     public int player1StealPoints;
     public int player2StealPoints;
 
-    // Puntos obtenidos por similitud
     public int player1SimilarityPoints;
     public int player2SimilarityPoints;
 
+    // =====================================================
+    // CARGAR PUNTAJES AL INICIAR CADA NIVEL
+    // =====================================================
+
+    private void Awake()
+    {
+        if (reiniciarAcumuladoAlIniciar)
+        {
+            PlayerPrefs.DeleteKey(CLAVE_PUNTAJE_P1);
+            PlayerPrefs.DeleteKey(CLAVE_PUNTAJE_P2);
+            PlayerPrefs.Save();
+
+            reiniciarAcumuladoAlIniciar = false;
+        }
+
+        player1TotalScore =
+            PlayerPrefs.GetInt(CLAVE_PUNTAJE_P1, 0);
+
+        player2TotalScore =
+            PlayerPrefs.GetInt(CLAVE_PUNTAJE_P2, 0);
+
+        Debug.Log("PUNTAJE RECUPERADO AL INICIAR NIVEL");
+        Debug.Log("P1 acumulado: " + player1TotalScore);
+        Debug.Log("P2 acumulado: " + player2TotalScore);
+    }
 
     // =====================================================
-    // CALCULAR RESULTADOS
+    // CALCULAR RESULTADOS DE LA RONDA
     // =====================================================
 
     public void CalculateRoundResults()
     {
-        // -------------------------------------------------
-        // OBTENER INGREDIENTES
-        // -------------------------------------------------
+        if (recipeManager == null ||
+            player1Grab == null ||
+            player2Grab == null)
+        {
+            Debug.LogError(
+                "ScoreManager: falta asignar RecipeManager o PlayerGrab."
+            );
+            return;
+        }
 
         List<IngredientType> player1Ingredients =
             GetPlayerIngredients(player1Grab);
@@ -111,88 +90,50 @@ public class ScoreManager : MonoBehaviour
         List<IngredientType> player2Ingredients =
             GetPlayerIngredients(player2Grab);
 
+        player1Similarity = CompareRecipe(
+            recipeManager.player1Recipe,
+            player1Ingredients
+        );
 
-        // -------------------------------------------------
-        // CALCULAR SIMILITUD
-        // -------------------------------------------------
+        player2Similarity = CompareRecipe(
+            recipeManager.player2Recipe,
+            player2Ingredients
+        );
 
-        player1Similarity =
-            CompareRecipe(
-                recipeManager.player1Recipe,
-                player1Ingredients
-            );
+        int player1CorrectIngredients = CountCorrectIngredients(
+            recipeManager.player1Recipe,
+            player1Ingredients
+        );
 
-        player2Similarity =
-            CompareRecipe(
-                recipeManager.player2Recipe,
-                player2Ingredients
-            );
+        int player2CorrectIngredients = CountCorrectIngredients(
+            recipeManager.player2Recipe,
+            player2Ingredients
+        );
 
-
-        // -------------------------------------------------
-        // CONTAR INGREDIENTES CORRECTOS
-        // -------------------------------------------------
-
-        int player1CorrectIngredients =
-            CountCorrectIngredients(
-                recipeManager.player1Recipe,
-                player1Ingredients
-            );
-
-        int player2CorrectIngredients =
-            CountCorrectIngredients(
-                recipeManager.player2Recipe,
-                player2Ingredients
-            );
-
-
-        // -------------------------------------------------
-        // PUNTOS POR INGREDIENTES
-        // -------------------------------------------------
-
+        // Puntos por ingredientes correctos
         player1IngredientPoints =
-            player1CorrectIngredients *
-            pointsPerIngredient;
+            player1CorrectIngredients * pointsPerIngredient;
 
         player2IngredientPoints =
-            player2CorrectIngredients *
-            pointsPerIngredient;
+            player2CorrectIngredients * pointsPerIngredient;
 
-
-        // -------------------------------------------------
-        // PUNTOS POR ROBAR
-        // -------------------------------------------------
-
+        // Puntos extra por robar ingredientes
         player1StealPoints =
-            player1Grab.stolenIngredientsThisRound *
-            pointsPerSteal;
+            player1Grab.stolenIngredientsThisRound * pointsPerSteal;
 
         player2StealPoints =
-            player2Grab.stolenIngredientsThisRound *
-            pointsPerSteal;
+            player2Grab.stolenIngredientsThisRound * pointsPerSteal;
 
+        // Puntos adicionales por similitud
+        player1SimilarityPoints = Mathf.RoundToInt(
+            player1Similarity / 100f * maxSimilarityPoints
+        );
 
-        // -------------------------------------------------
-        // PUNTOS POR SIMILITUD
-        // -------------------------------------------------
+        player2SimilarityPoints = Mathf.RoundToInt(
+            player2Similarity / 100f * maxSimilarityPoints
+        );
 
-        player1SimilarityPoints =
-            Mathf.RoundToInt(
-                (player1Similarity / 100f) *
-                maxSimilarityPoints
-            );
-
-        player2SimilarityPoints =
-            Mathf.RoundToInt(
-                (player2Similarity / 100f) *
-                maxSimilarityPoints
-            );
-
-
-        // -------------------------------------------------
-        // PUNTAJE TOTAL DE LA RONDA
-        // -------------------------------------------------
-
+        // Puntaje de esta ronda
         player1Score =
             player1IngredientPoints +
             player1StealPoints +
@@ -203,217 +144,110 @@ public class ScoreManager : MonoBehaviour
             player2StealPoints +
             player2SimilarityPoints;
 
-
-        // -------------------------------------------------
-        // SUMAR AL TOTAL ACUMULADO
-        // -------------------------------------------------
-
+        // Sumar al acumulado recuperado
         player1TotalScore += player1Score;
         player2TotalScore += player2Score;
 
+        // Guardar inmediatamente los acumulados
+        GuardarPuntajesAcumulados();
 
-        // =================================================
-        // DEBUG
-        // =================================================
+        Debug.Log("======= RESULTADOS DE RONDA =======");
+        Debug.Log("P1 similitud: " + player1Similarity + "%");
+        Debug.Log("P1 ingredientes: " + player1IngredientPoints);
+        Debug.Log("P1 robos: " + player1StealPoints);
+        Debug.Log("P1 puntos similitud: " + player1SimilarityPoints);
+        Debug.Log("P1 puntaje ronda: " + player1Score);
+        Debug.Log("P1 TOTAL ACUMULADO: " + player1TotalScore);
 
-        Debug.Log("=================================");
-        Debug.Log("        RESULTADOS DE RONDA");
-        Debug.Log("=================================");
+        Debug.Log("-----------------------------------");
 
-        Debug.Log(
-            "Player 1 similitud: "
-            + player1Similarity
-            + "%"
-        );
-
-        Debug.Log(
-            "Player 1 ingredientes: "
-            + player1CorrectIngredients
-            + " x "
-            + pointsPerIngredient
-            + " = "
-            + player1IngredientPoints
-        );
-
-        Debug.Log(
-            "Player 1 robos: "
-            + player1Grab.stolenIngredientsThisRound
-            + " x "
-            + pointsPerSteal
-            + " = "
-            + player1StealPoints
-        );
-
-        Debug.Log(
-            "Player 1 puntos similitud: "
-            + player1SimilarityPoints
-        );
-
-        Debug.Log(
-            "Player 1 PUNTAJE RONDA: "
-            + player1Score
-        );
-
-        Debug.Log(
-            "Player 1 TOTAL: "
-            + player1TotalScore
-        );
-
-
-        Debug.Log("---------------------------------");
-
-
-        Debug.Log(
-            "Player 2 similitud: "
-            + player2Similarity
-            + "%"
-        );
-
-        Debug.Log(
-            "Player 2 ingredientes: "
-            + player2CorrectIngredients
-            + " x "
-            + pointsPerIngredient
-            + " = "
-            + player2IngredientPoints
-        );
-
-        Debug.Log(
-            "Player 2 robos: "
-            + player2Grab.stolenIngredientsThisRound
-            + " x "
-            + pointsPerSteal
-            + " = "
-            + player2StealPoints
-        );
-
-        Debug.Log(
-            "Player 2 puntos similitud: "
-            + player2SimilarityPoints
-        );
-
-        Debug.Log(
-            "Player 2 PUNTAJE RONDA: "
-            + player2Score
-        );
-
-        Debug.Log(
-            "Player 2 TOTAL: "
-            + player2TotalScore
-        );
-
-        Debug.Log("=================================");
+        Debug.Log("P2 similitud: " + player2Similarity + "%");
+        Debug.Log("P2 ingredientes: " + player2IngredientPoints);
+        Debug.Log("P2 robos: " + player2StealPoints);
+        Debug.Log("P2 puntos similitud: " + player2SimilarityPoints);
+        Debug.Log("P2 puntaje ronda: " + player2Score);
+        Debug.Log("P2 TOTAL ACUMULADO: " + player2TotalScore);
+        Debug.Log("===================================");
     }
 
+    // =====================================================
+    // GUARDAR ACUMULADOS
+    // =====================================================
+
+    private void GuardarPuntajesAcumulados()
+    {
+        PlayerPrefs.SetInt(CLAVE_PUNTAJE_P1, player1TotalScore);
+        PlayerPrefs.SetInt(CLAVE_PUNTAJE_P2, player2TotalScore);
+        PlayerPrefs.Save();
+
+        Debug.Log("PUNTAJES GUARDADOS CORRECTAMENTE");
+    }
 
     // =====================================================
     // OBTENER INGREDIENTES DEL JUGADOR
     // =====================================================
 
-    List<IngredientType> GetPlayerIngredients(
-        PlayerGrab playerGrab
-    )
+    private List<IngredientType> GetPlayerIngredients(
+        PlayerGrab playerGrab)
     {
         List<IngredientType> ingredients =
-            new List<IngredientType>(
-                playerGrab.inventory
-            );
-
-
-        // Revisar si tiene un ingrediente en la mano
+            new List<IngredientType>(playerGrab.inventory);
 
         if (playerGrab.heldObject != null)
         {
             Ingredient ingredient =
-                playerGrab.heldObject
-                .GetComponent<Ingredient>();
+                playerGrab.heldObject.GetComponent<Ingredient>();
 
             if (ingredient != null)
             {
-                ingredients.Add(
-                    ingredient.ingredientType
-                );
+                ingredients.Add(ingredient.ingredientType);
             }
         }
 
         return ingredients;
     }
 
-
     // =====================================================
     // CONTAR INGREDIENTES CORRECTOS
     // =====================================================
 
-    int CountCorrectIngredients(
+    private int CountCorrectIngredients(
         List<IngredientType> recipe,
-        List<IngredientType> ingredients
-    )
+        List<IngredientType> ingredients)
     {
         int correctIngredients = 0;
 
         List<IngredientType> ingredientsCopy =
-            new List<IngredientType>(
-                ingredients
-            );
+            new List<IngredientType>(ingredients);
 
-
-        foreach (
-            IngredientType ingredient
-            in recipe
-        )
+        foreach (IngredientType ingredient in recipe)
         {
-            if (
-                ingredientsCopy.Contains(
-                    ingredient
-                )
-            )
+            if (ingredientsCopy.Contains(ingredient))
             {
                 correctIngredients++;
-
-                ingredientsCopy.Remove(
-                    ingredient
-                );
+                ingredientsCopy.Remove(ingredient);
             }
         }
 
         return correctIngredients;
     }
 
-
     // =====================================================
-    // COMPARAR RECETA
+    // CALCULAR PORCENTAJE DE SIMILITUD
     // =====================================================
 
-    float CompareRecipe(
+    private float CompareRecipe(
         List<IngredientType> recipe,
-        List<IngredientType> ingredients
-    )
+        List<IngredientType> ingredients)
     {
-        int correctIngredients =
-            CountCorrectIngredients(
-                recipe,
-                ingredients
-            );
-
-
-        // Evitar división entre cero
-
-        if (recipe.Count == 0)
+        if (recipe == null || recipe.Count == 0)
         {
-            return 0;
+            return 0f;
         }
 
+        int correctIngredients =
+            CountCorrectIngredients(recipe, ingredients);
 
-        // Calcular porcentaje
-
-        float similarity =
-            (
-                (float)correctIngredients /
-                recipe.Count
-            ) * 100f;
-
-
-        return similarity;
+        return (float)correctIngredients / recipe.Count * 100f;
     }
 }
-
