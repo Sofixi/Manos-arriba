@@ -16386,7 +16386,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 482433232}
         m_TargetAssemblyTypeName: ResultsPanelManager, Assembly-CSharp
         m_MethodName: NextRound
         m_Mode: 1
@@ -16398,7 +16398,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 209133699}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: PlayButtonSound
         m_Mode: 1
